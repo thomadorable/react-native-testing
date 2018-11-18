@@ -1,38 +1,41 @@
 // Navigation/Navigation.js
 
 import React from 'react' // N'oubliez pas l'import de React ici. On en a besoin pour rendre nos components React Native Image ! 
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, Easing, Animated } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 import Search from '../components/Search'
 import FilmDetail from '../components/FilmDetail'
 import Favorites from '../components/Favorites'
-import Test from '../components/Test'
+import Camera from '../components/Camera'
+import Clothes from '../components/Clothes'
+import Lookbook from '../components/Lookbook'
+import CustomHeader from '../components/CustomHeader'
 import Colors from '../constants/Colors'
-
-const titleStyle = {
-    fontFamily: 'RozhaOne-Regular',
-    fontSize: 20
-}
+import { fromLeft } from 'react-navigation-transitions';
 
 const SearchStackNavigator = createStackNavigator({
     Search: {
         screen: Search,
         navigationOptions: {
-            title: 'Rechercher',
-            headerTitleStyle: titleStyle
+            header: props => <CustomHeader {...props} title="Search"/>,
+            animationEnabled: true
         }
     },
     FilmDetail: {
         screen: FilmDetail
     }
+},
+{
+    initialRouteName: 'Search',
+    transitionConfig: () => fromLeft(1000)
 })
 
 const FavoritesStackNavigator = createStackNavigator({
     Favorite: {
         screen: Favorites,
         navigationOptions: {
-            title: 'Favoris',
-            headerTitleStyle: titleStyle
+            header: props => <CustomHeader {...props} title="Favoris"/>,
+            animationEnabled: true
         }
     },
     FilmDetail: {
@@ -40,12 +43,32 @@ const FavoritesStackNavigator = createStackNavigator({
     }
 })
 
-const TestingStackNavigator = createStackNavigator({
-    Favorite: {
-        screen: Test,
+const CameraStackNavigator = createStackNavigator({
+    Camera: {
+        screen: Camera,
         navigationOptions: {
-            title: 'Test animations',
-            headerTitleStyle: titleStyle
+            header: props => <CustomHeader {...props} title="Add clothes"/>,
+            animationEnabled: true
+        }
+    }
+})
+
+const ClothesStackNavigator = createStackNavigator({
+    Clothes: {
+        screen: Clothes,
+        navigationOptions: {
+            header: props => <CustomHeader {...props} title="My clothes"/>,
+            animationEnabled: true
+        }
+    }
+})
+
+const LookbookStackNavigator = createStackNavigator({
+    Lookbook: {
+        screen: Lookbook,
+        navigationOptions: {
+            header: props => <CustomHeader {...props} title="Lookbook"/>,
+            animationEnabled: true
         }
     }
 })
@@ -85,7 +108,39 @@ const MoviesTabNavigator = createBottomTabNavigator(
             }
         },
         Testing: {
-            screen: TestingStackNavigator,
+            screen: CameraStackNavigator,
+            navigationOptions: {
+                tabBarIcon: ({ focused }) => (focused ?
+                    <Image
+                        source={require('../assets/images/like.png')}
+                        style={[styles.icon, { tintColor: 'black' }]}
+                    />
+                    :
+                    <Image
+                        source={require('../assets/images/unlike.png')}
+                        style={[styles.icon, { tintColor: 'grey' }]}
+                    />
+                ),
+            }
+        },
+        Clothes: {
+            screen: ClothesStackNavigator,
+            navigationOptions: {
+                tabBarIcon: ({ focused }) => (focused ?
+                    <Image
+                        source={require('../assets/images/like.png')}
+                        style={[styles.icon, { tintColor: 'black' }]}
+                    />
+                    :
+                    <Image
+                        source={require('../assets/images/unlike.png')}
+                        style={[styles.icon, { tintColor: 'grey' }]}
+                    />
+                ),
+            }
+        },
+        Lookbook: {
+            screen: LookbookStackNavigator,
             navigationOptions: {
                 tabBarIcon: ({ focused }) => (focused ?
                     <Image
@@ -124,5 +179,4 @@ const styles = StyleSheet.create({
         height: 25,
     }
 })
-
 export default MoviesTabNavigator

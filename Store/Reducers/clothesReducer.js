@@ -37,8 +37,13 @@ function setClothes(state = initialState, action) {
                 data.append('user_id', user_id);
             
                 getJSON('clothes', data, (clothes) => {
-                    initialState.clothes = JSON.parse(clothes);
-                    console.log('init clothes =>', JSON.parse(clothes))
+                    if (clothes) {
+                        clothes = JSON.parse(clothes);
+                    } else {
+                        clothes = [];
+                    }
+                    initialState.clothes = clothes;
+                    console.log('init clothes =>', clothes)
                 });
             });
             return nextState || state;
