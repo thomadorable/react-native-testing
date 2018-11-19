@@ -1,13 +1,16 @@
 // Components/Look.js
 
 import React from 'react'
-import { Image, StyleSheet, View, Text, TouchableOpacity, Dimensions, Button } from 'react-native'
+import { Image, StyleSheet, View, Text, TouchableOpacity, Dimensions, Button, Animated, Easing } from 'react-native'
 import { connect } from 'react-redux'
 import Colors from '../constants/Colors'
 
 class Look extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            anim_load: new Animated.Value(0)
+        };
     }
 
     validate() {
@@ -48,12 +51,24 @@ class Look extends React.Component {
                 <Text style={styles.vote}>{this.props.look.likes} | {this.props.look.comments}</Text>
 
             </View>
-            <Image
-                style={styles.image}
-                source={{uri: this.props.look.thumb}}
-            />
-
-
+            <View style={{backgroundColor: '#' + this.props.look.color}}>
+                <Animated.View style={{opacity: this.state.anim_load}}>
+                    <Image
+                        onLoad={() => {
+                            Animated.timing(
+                                this.state.anim_load,
+                                {
+                                    toValue: 1,
+                                    duration: 300,
+                                    easing: Easing.ease
+                                }
+                            ).start()
+                        }}
+                        style={styles.image}
+                        source={{uri: this.props.look.thumb}}
+                    />
+                </Animated.View>
+            </View>
             </View>
         )
     }

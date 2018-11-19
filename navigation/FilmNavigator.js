@@ -9,7 +9,6 @@ import Favorites from '../components/Favorites'
 import Camera from '../components/Camera'
 import Clothes from '../components/Clothes'
 import Lookbook from '../components/Lookbook'
-import CustomBottomNav from '../components/CustomBottomNav'
 import CustomHeader from '../components/CustomHeader'
 import { fromLeft } from 'react-navigation-transitions';
 
@@ -80,12 +79,12 @@ const MoviesTabNavigator = createBottomTabNavigator(
             navigationOptions: {
                 tabBarIcon: ({ focused }) => (focused ?
                     <Image
-                        source={require('../assets/images/unsearch.png')}
+                        source={require('../assets/images/search2.png')}
                         style={[styles.icon, { tintColor: 'black' }]}
                     />
                     :
                     <Image
-                        source={require('../assets/images/search.png')}
+                        source={require('../assets/images/search2.png')}
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
                 )
@@ -96,28 +95,28 @@ const MoviesTabNavigator = createBottomTabNavigator(
             navigationOptions: {
                 tabBarIcon: ({ focused }) => (focused ?
                     <Image
-                        source={require('../assets/images/like.png')}
+                        source={require('../assets/images/unheart2.png')}
                         style={[styles.icon, { tintColor: 'black' }]}
                     />
                     :
                     <Image
-                        source={require('../assets/images/unlike.png')}
+                        source={require('../assets/images/unheart2.png')}
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
                 ),
             }
         },
-        Testing: {
+        Camera: {
             screen: CameraStackNavigator,
             navigationOptions: {
                 tabBarIcon: ({ focused }) => (focused ?
                     <Image
-                        source={require('../assets/images/like.png')}
+                        source={require('../assets/images/camera.png')}
                         style={[styles.icon, { tintColor: 'black' }]}
                     />
                     :
                     <Image
-                        source={require('../assets/images/unlike.png')}
+                        source={require('../assets/images/camera.png')}
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
                 ),
@@ -128,12 +127,12 @@ const MoviesTabNavigator = createBottomTabNavigator(
             navigationOptions: {
                 tabBarIcon: ({ focused }) => (focused ?
                     <Image
-                        source={require('../assets/images/like.png')}
+                        source={require('../assets/images/hanger.png')}
                         style={[styles.icon, { tintColor: 'black' }]}
                     />
                     :
                     <Image
-                        source={require('../assets/images/unlike.png')}
+                        source={require('../assets/images/hanger.png')}
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
                 ),
@@ -144,21 +143,19 @@ const MoviesTabNavigator = createBottomTabNavigator(
             navigationOptions: {
                 tabBarOnPress: ({navigation}) => {
                     if (navigation.isFocused()) {
-                        console.log(navigation.state.routes[0].params.scrollToTop());
+                        navigation.state.routes[0].params.scrollToTop()
                     } else {
                         navigation.navigate('Lookbook');
                     }
                 },
-                // tabBarButtonComponent: CustomBottomNav,
-                // tabBarIcon: Lookbook => <CustomBottomNav test={Lookbook} />,
                 tabBarIcon: ({ focused }) => (focused ?
                     <Image
-                        source={require('../assets/images/like.png')}
+                        source={require('../assets/images/insta.png')}
                         style={[styles.icon, { tintColor: 'black' }]}
                     />
                     :
                     <Image
-                        source={require('../assets/images/unlike.png')}
+                        source={require('../assets/images/insta.png')}
                         style={[styles.icon, { tintColor: 'grey' }]}
                     />
                 ),
@@ -177,15 +174,16 @@ const MoviesTabNavigator = createBottomTabNavigator(
             //     bottom: 'never'
             // },
             // style: { height: 70 },
-            labelStyle: { paddingBottom: 20 }
+            // labelStyle: { paddingBottom: 60 }
         }
     }
 )
 
 const styles = StyleSheet.create({
     icon: {
-        width: 25,
-        height: 25,
+        width: 20,
+        height: 20,
+        marginTop: 5
     }
 })
 export default MoviesTabNavigator

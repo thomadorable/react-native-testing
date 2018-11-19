@@ -1,7 +1,7 @@
 // Components/Lookbooks.js
 
 import React from 'react'
-import { ScrollView, RefreshControl, StyleSheet, View, Button, Dimensions } from 'react-native'
+import { ScrollView, RefreshControl, StyleSheet, View, Button, Text, Dimensions, TouchableOpacity } from 'react-native'
 // import { connect } from 'react-redux'
 import Avatar from './Avatar'
 import Colors from '../constants/Colors'
@@ -16,7 +16,8 @@ class Lookbooks extends React.Component {
             isLoading: false,
             refreshing: false,
             currentPage: 0,
-            looks: []
+            looks: [],
+            currentTab: 0
         };
 
         this.props.navigation.setParams({
@@ -28,7 +29,6 @@ class Lookbooks extends React.Component {
 
     _scrollToTop = () => {
         this.refs._scrollView.scrollTo({x: 0, y: 0, animated: true});
-        this.scrape(true);
     }
 
     componentDidMount() {
@@ -66,7 +66,6 @@ class Lookbooks extends React.Component {
                 refreshing: false
             });
 
-            // TODO TOFIX change this
             setTimeout(() => {
                 this.setState({
                     isLoading: false
@@ -75,32 +74,56 @@ class Lookbooks extends React.Component {
         })
     }
 
-    _displayLookbook() {
-        if (!this.state.refreshing) {
-            var looks = [];
-            for (let i = 0; i < this.state.looks.length; i++) {
-                const look = this.state.looks[i];
-                looks.push(<Look look={look} index={i} key={i} />);
-            }
-
-            return (
-                <View style={{flex: 1, paddingVertical: 20}}>
-                    {looks}
-
-                    <Button onPress={this._getLooks} title="See more" />
-                </View>
-            )
-        }
-    }
-
     isCloseToBottom({layoutMeasurement, contentOffset, contentSize}) {
-        return layoutMeasurement.height + contentOffset.y >= contentSize.height - (Dimensions.get('window').height * 2);
+        return layoutMeasurement.height + contentOffset.y >= contentSize.height - (Dimensions.get('window').height * 4);
     }
 
-    render() {
+    _displayLookbook() {
+        var looks = [];
+        for (let i = 0; i < this.state.looks.length; i++) {
+            const look = this.state.looks[i];
+            looks.push(<Look look={look} index={i} key={i} />);
+        }
+
         return (
-            <View style={styles.main_container}>
-                <Avatar />
+            <View style={{flex: 1}}>
+                {looks}
+            </View>
+        )
+    }
+
+    switchTab = (indexTab) => {
+        this.setState({
+            currentTab: indexTab
+        })
+    }
+
+    _showTabs() {
+        return (
+            <View style={styles.tab_container}>
+                <TouchableOpacity 
+                    onPress={() => {
+                        this.switchTab(0)
+                    }}
+                    style={[styles.tab, this.state.currentTab === 0 ? styles.activeTab : null]}
+                >
+                    <Text style={styles.tabText}>Lookbooks</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    onPress={() => {
+                        this.switchTab(1)
+                    }}
+                    style={[styles.tab, this.state.currentTab === 1 ? styles.activeTab : null]}
+                >
+                    <Text style={styles.tabText}>Mes looks</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    _showMyLooksOrLookbooks = () => {
+        if (this.state.currentTab === 0) {
+            return (
                 <ScrollView
                     ref='_scrollView'
                     style={{flex: 1}}
@@ -110,7 +133,6 @@ class Lookbooks extends React.Component {
                             onRefresh={this._onRefresh}
                         />}
                     scrollEventThrottle={300}
-                    // scrollEventThrottle={15}
                     onScroll={({nativeEvent})=>{
                         if(this.isCloseToBottom(nativeEvent) && !this.state.refreshing && !this.state.isLoading) {
                             console.log('load more !!')
@@ -125,6 +147,22 @@ class Lookbooks extends React.Component {
                     >
                     {this._displayLookbook()}
                 </ScrollView>
+            )
+        } else {
+            return (
+                <Text>Mes looks !</Text>
+            )
+        }
+    }
+
+    render() {
+        return (
+            <View style={styles.main_container}>
+                <Avatar />
+                
+                {this._showTabs()}
+
+                {this._showMyLooksOrLookbooks()}
             </View>
         )
     }
@@ -134,6 +172,32 @@ const styles = StyleSheet.create({
     main_container: {
         flex: 1,
         backgroundColor: Colors.bg
+    },
+    tab: {
+        flex: 1,
+        padding: 10,
+        margin: 10,
+        backgroundColor: Colors.bg,
+        shadowColor: '#a3a3a5',
+        shadowOffset: { width: -2, height: -7 },
+        shadowOpacity: 0.5,
+        shadowRadius: 8,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: 'white'
+    },
+    tabText: {
+        fontFamily: 'RozhaOne-Regular',
+        fontSize: 16,
+        color: '#292929',
+        textAlign: 'center'
+    },
+    tab_container : {
+        flexDirection: 'row',
+        margin: 10
+    }, 
+    activeTab: {
+        borderColor: '#a3a3a5',
     }
 })
 
