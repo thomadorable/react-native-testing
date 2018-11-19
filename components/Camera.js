@@ -98,7 +98,7 @@ class Camera extends React.Component {
         if (this.lastTap && (now - this.lastTap) < 300) {
             this.switchType();
         } else {
-                this.lastTap = now;
+            this.lastTap = now;
         }
     }
 
