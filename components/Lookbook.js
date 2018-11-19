@@ -1,7 +1,7 @@
 // Components/Lookbooks.js
 
 import React from 'react'
-import { ScrollView, RefreshControl, StyleSheet, View, Text, FlatList, Button } from 'react-native'
+import { ScrollView, RefreshControl, StyleSheet, View, Button, Dimensions } from 'react-native'
 // import { connect } from 'react-redux'
 import Avatar from './Avatar'
 import Colors from '../constants/Colors'
@@ -13,13 +13,22 @@ class Lookbooks extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading: false,
             refreshing: false,
             currentPage: 0,
             looks: []
         };
 
-        this.looks = [];
+        this.props.navigation.setParams({
+            scrollToTop: this._scrollToTop,
+        });
+
         this.nb_img_per_page = 20;
+    }
+
+    _scrollToTop = () => {
+        this.refs._scrollView.scrollTo({x: 0, y: 0, animated: true});
+        this.scrape(true);
     }
 
     componentDidMount() {
@@ -28,35 +37,41 @@ class Lookbooks extends React.Component {
 
     _onRefresh = () => {
         this.setState({ refreshing: true });
-        setTimeout(() => {
-            this.setState({ refreshing: false });
-        }, 1000);
+        this.scrape(true);
     }
 
-    _loadLooks = () => {
-        const current_index = (this.state.currentPage * this.nb_img_per_page);
-        const added_looks = this.looks.slice(current_index, current_index + this.nb_img_per_page);
+    scrape = (isReloaded) => {
+        getJSON('generate', null, (looks) => {
+            console.log('generated : ', looks);
 
-        console.log('from', current_index, 'to', current_index + this.nb_img_per_page)
-
-        // TODO TOFIX check it left more than nb_img_per_page to load
-        this.setState({
-            looks: [...this.state.looks, ...added_looks],
-            currentPage : this.state.currentPage + 1
-        });
+            if (isReloaded) {
+                this.setState({
+                    currentPage: 0,
+                    looks: [],
+                }, this._getLooks)
+            }
+        })
     }
 
     _getLooks = () => {
-        getJSON('insta', null, (looks) => {
-            this.looks = looks;
+        const data = new FormData();
+        data.append('page', this.state.currentPage);
 
+        getJSON('insta', data, (looks) => {
             console.log('nb looks =>', looks.length);
 
-
             this.setState({
-                currentPage: 0,
-                isLoading: false,
-            }, this._loadLooks)
+                looks: [...this.state.looks, ...looks],
+                currentPage: this.state.currentPage + 1,
+                refreshing: false
+            });
+
+            // TODO TOFIX change this
+            setTimeout(() => {
+                this.setState({
+                    isLoading: false
+                })
+            }, (1000));
         })
     }
 
@@ -71,13 +86,15 @@ class Lookbooks extends React.Component {
             return (
                 <View style={{flex: 1, paddingVertical: 20}}>
                     {looks}
+
+                    <Button onPress={this._getLooks} title="See more" />
                 </View>
             )
         }
     }
 
     isCloseToBottom({layoutMeasurement, contentOffset, contentSize}) {
-        return layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+        return layoutMeasurement.height + contentOffset.y >= contentSize.height - (Dimensions.get('window').height * 2);
     }
 
     render() {
@@ -85,21 +102,28 @@ class Lookbooks extends React.Component {
             <View style={styles.main_container}>
                 <Avatar />
                 <ScrollView
+                    ref='_scrollView'
                     style={{flex: 1}}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
                             onRefresh={this._onRefresh}
                         />}
-                    scrollEventThrottle={15}
+                    scrollEventThrottle={300}
+                    // scrollEventThrottle={15}
                     onScroll={({nativeEvent})=>{
-                        if(this.isCloseToBottom(nativeEvent)){
-                            alert('bottom !');
+                        if(this.isCloseToBottom(nativeEvent) && !this.state.refreshing && !this.state.isLoading) {
+                            console.log('load more !!')
+                            this.setState({
+                                isLoading: true
+                            })
+
+                            this._getLooks();
+                            this.scrape(false);
                         }
                     }}
                     >
                     {this._displayLookbook()}
-                    <Button onPress={this._loadLooks} title="See more" />
                 </ScrollView>
             </View>
         )

@@ -9,8 +9,8 @@ import Favorites from '../components/Favorites'
 import Camera from '../components/Camera'
 import Clothes from '../components/Clothes'
 import Lookbook from '../components/Lookbook'
+import CustomBottomNav from '../components/CustomBottomNav'
 import CustomHeader from '../components/CustomHeader'
-import Colors from '../constants/Colors'
 import { fromLeft } from 'react-navigation-transitions';
 
 const SearchStackNavigator = createStackNavigator({
@@ -18,7 +18,7 @@ const SearchStackNavigator = createStackNavigator({
         screen: Search,
         navigationOptions: {
             header: props => <CustomHeader {...props} title="Search"/>,
-            animationEnabled: true
+            // animationEnabled: true
         }
     },
     FilmDetail: {
@@ -26,8 +26,8 @@ const SearchStackNavigator = createStackNavigator({
     }
 },
 {
-    initialRouteName: 'Search',
-    transitionConfig: () => fromLeft(1000)
+    // initialRouteName: 'Search',
+    // transitionConfig: () => fromLeft(1000)
 })
 
 const FavoritesStackNavigator = createStackNavigator({
@@ -142,6 +142,15 @@ const MoviesTabNavigator = createBottomTabNavigator(
         Lookbook: {
             screen: LookbookStackNavigator,
             navigationOptions: {
+                tabBarOnPress: ({navigation}) => {
+                    if (navigation.isFocused()) {
+                        console.log(navigation.state.routes[0].params.scrollToTop());
+                    } else {
+                        navigation.navigate('Lookbook');
+                    }
+                },
+                // tabBarButtonComponent: CustomBottomNav,
+                // tabBarIcon: Lookbook => <CustomBottomNav test={Lookbook} />,
                 tabBarIcon: ({ focused }) => (focused ?
                     <Image
                         source={require('../assets/images/like.png')}

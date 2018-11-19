@@ -1,13 +1,21 @@
 // Components/Look.js
 
 import React from 'react'
-import { Image, StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native'
+import { Image, StyleSheet, View, Text, TouchableOpacity, Dimensions, Button } from 'react-native'
 import { connect } from 'react-redux'
 import Colors from '../constants/Colors'
 
 class Look extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    validate() {
+
+    }
+
+    refuse() {
+
     }
 
     _displayFavoriteImage = () => {
@@ -26,9 +34,9 @@ class Look extends React.Component {
     }
 
     render() {
-        // console.log(this.props.look, this.props.look.image);
+        // console.log(this.props.look);
         return (
-            <TouchableOpacity
+            <View
                 style={styles.main_container}
                 // onPress={() => displayDetailForFilm(film.id)}
             >
@@ -36,8 +44,8 @@ class Look extends React.Component {
             <View style={styles.titre_container}>
                 {/* {this._displayFavoriteImage()} */}
 
-                <Text style={styles.titre}>{this.props.look.tag}</Text>
-                <Text style={styles.vote}>{this.props.look.nb_comments} | {this.props.look.nb_likes}</Text>
+                <Text style={styles.titre}>#{this.props.look.tag} {this.props.look.id_insta}</Text>
+                <Text style={styles.vote}>{this.props.look.likes} | {this.props.look.comments}</Text>
 
             </View>
             <Image
@@ -45,7 +53,8 @@ class Look extends React.Component {
                 source={{uri: this.props.look.thumb}}
             />
 
-            </TouchableOpacity>
+
+            </View>
         )
     }
 }
