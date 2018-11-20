@@ -1,6 +1,12 @@
 import { NetInfo, Platform } from 'react-native'
 import { getData, setData } from '../utils/datas.js'
 
+var current_user = null;
+
+getData('@Vera:user', [], (user) => {
+    current_user = user;
+});
+
 var baseUrl = 'http://thomasderoua.fr/vera';
 // baseUrl = 'http://localhost/vera-api';
 
@@ -16,8 +22,7 @@ function isNetworkConnected() {
     }
   
     return NetInfo.isConnected.fetch();
-  }
-  
+}
 
 export async function getRegister(callback) {
     // TODO : tester url before fetch
@@ -36,6 +41,9 @@ export async function getRegister(callback) {
         }
     });
 }
+
+
+// TODO TOFIX THIS IS THE SAME THING
 
 export function setAvatar(data, callback) {
     isNetworkConnected().done((isConnected) => {
@@ -75,9 +83,13 @@ export function setSnap(data, callback) {
     });
 }
 
+
+// SET DATA FUNCTION
 export function setJSON(file, data, callback) {
     isNetworkConnected().done((isConnected) => {
         if (isConnected) {
+            data.append('user_id', current_user.id);
+
             return fetch(baseUrl + '/' + file + '.php', {
                 method: 'post',
                 body: data,
@@ -94,6 +106,10 @@ export function setJSON(file, data, callback) {
 export function getJSON(file, data, callback) {
     isNetworkConnected().done((isConnected) => {
         if (isConnected) {
+            if (data) {
+                data.append('user_id', current_user.id);
+            }
+
             return fetch(baseUrl + '/' + file + '.php', {
                 method: 'post',
                 body: data,
@@ -103,8 +119,8 @@ export function getJSON(file, data, callback) {
             .catch((error) => console.error(error))
         } else {
             alert('pas de connexion')
-            getData('@Vera:' + file, [], (favorites) => {
-                callback(favorites);
+            getData('@Vera:' + file, [], (datas) => {
+                callback(datas);
             });
         }
     });

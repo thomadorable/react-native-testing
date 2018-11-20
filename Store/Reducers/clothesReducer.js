@@ -3,7 +3,6 @@ import { getData, setData } from '../../utils/datas.js'
 import { setJSON, getJSON } from '../../API/registerApi'
 
 const initialState = { clothes: [] }
-var user_id = null;
 
 function setClothes(state = initialState, action) {
     let nextState
@@ -16,35 +15,28 @@ function setClothes(state = initialState, action) {
             }
 
             var checkState = nextState || state;
-            var clothe = checkState.clothes;
+            var clothes = checkState.clothes;
             
             const data = new FormData();
-            data.append('clothe', JSON.stringify(clothe));
-            data.append('user_id', user_id);
+            data.append('clothe', JSON.stringify(clothes));
             
             setJSON('clothes', data, (result) => {
                 console.log('set clothe !!', result);
-                setData('@Vera:clothes', clothe);
+                setData('@Vera:clothes', clothes);
             });
 
             return nextState || state;
 
 
         case 'INIT_CLOTHES':
-            getData('@Vera:user', [], (user) => {
-                user_id = user.id;
-                const data = new FormData();
-                data.append('user_id', user_id);
-            
-                getJSON('clothes', data, (clothes) => {
-                    if (clothes) {
-                        clothes = JSON.parse(clothes);
-                    } else {
-                        clothes = [];
-                    }
-                    initialState.clothes = clothes;
-                    console.log('init clothes =>', clothes)
-                });
+            getJSON('clothes', new FormData(), (clothes) => {
+                if (clothes) {
+                    clothes = JSON.parse(clothes);
+                } else {
+                    clothes = [];
+                }
+                initialState.clothes = clothes;
+                console.log('init clothes =>', clothes)
             });
             return nextState || state;
         default:

@@ -7,14 +7,11 @@
  */
 
 import React, { Component } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View, Image } from 'react-native';
 import FilmNavigation from '../navigation/FilmNavigator';
-
-import Store from '../Store/configureStore'
 import { connect } from 'react-redux'
 
 import { getRegister } from '../API/registerApi'
-import { getGenre } from '../API/TMDBApi'
 
 class Loading extends Component {
     state = {
@@ -26,28 +23,28 @@ class Loading extends Component {
 
         getRegister((onlineUser) => {
             if (onlineUser) {
-                // TODO : wait before isLoading true
-                this.props.dispatch({type: "INIT_USER", value: onlineUser })
-                this.props.dispatch({type: "INIT_FAVORITES", value: onlineUser })
+                // TODO TOFIX : wait before isLoading true
+                this.props.dispatch({type: "INIT_USER" })
+                this.props.dispatch({type: "INIT_LOOKS" })
                 this.props.dispatch({type: "INIT_CLOTHES", value: onlineUser })
-            } else {
-                alert('erreur pas d\'utilisateur ??? ')
-            }
-
-            getGenre().then(genres => {
-                this.props.dispatch({type: "INIT_GENRES", value: genres.genres })
 
                 this.setState({
                     isLoading: false,
                 });
-            })
+            } else {
+                alert('erreur pas d\'utilisateur ??? ')
+            }
         })
     }
 
     _displayLoading() {
         return (
             <View style={styles.loading_container}>
-                <ActivityIndicator size='large' color="red"/>
+                {/* <ActivityIndicator size='large' color="red"/> */}
+                <Image
+                    style={{width: 234, height: 154}}
+                    source={require('../assets/images/splash.png')}
+                />
             </View>
         )
     }
@@ -75,7 +72,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        genres: state.setGenre.genres,
     }
 }
 

@@ -56,7 +56,15 @@ class Look extends React.Component {
                     duration: 0
                 }
             ),
-        ]).start()
+        ]).start();
+
+        console.log('add look : ', this.props.look)
+        const look = {
+            id: this.props.look.id,
+            shortcode: this.props.look.shortcode,
+            added_date: Date.now()
+        };
+        this.props.dispatch({type: "ADD_LOOK", value: look })
     }
 
     validate() {
@@ -92,38 +100,34 @@ class Look extends React.Component {
     }
 
     render() {
-        // console.log(this.props.look);
         return (
             <View
                 style={styles.main_container}
-                // onPress={() => displayDetailForFilm(film.id)}
             >
+                <View style={styles.titre_container}>
+                    <Text style={styles.titre}>#{this.props.look.tag} {this.props.look.id_insta}</Text>
+                    <Text style={styles.vote}>{this.props.look.likes} | {this.props.look.comments}</Text>
 
-            <View style={styles.titre_container}>
-                <Text style={styles.titre}>#{this.props.look.tag} {this.props.look.id_insta}</Text>
-                <Text style={styles.vote}>{this.props.look.likes} | {this.props.look.comments}</Text>
-
-            </View>
-            <View style={{backgroundColor: '#' + this.props.look.color}}>
-                <Animated.View style={{opacity: this.state.anim_load, position: 'relative'}}>
-                    <Image
-                        onLoad={() => {
-                            Animated.timing(
-                                this.state.anim_load,
-                                {
-                                    toValue: 1,
-                                    duration: 300,
-                                    easing: Easing.ease
-                                }
-                            ).start()
-                        }}
-                        style={styles.image}
-                        source={{uri: this.props.look.thumb}}
-                    />
-                    {this._displayFavoriteImage()}
-
-                </Animated.View>
-            </View>
+                </View>
+                <View style={{backgroundColor: '#' + this.props.look.color}}>
+                    <Animated.View style={{opacity: this.state.anim_load, position: 'relative'}}>
+                        <Image
+                            onLoad={() => {
+                                Animated.timing(
+                                    this.state.anim_load,
+                                    {
+                                        toValue: 1,
+                                        duration: 300,
+                                        easing: Easing.ease
+                                    }
+                                ).start()
+                            }}
+                            style={styles.image}
+                            source={{uri: this.props.look.thumb}}
+                        />
+                        {this._displayFavoriteImage()}
+                    </Animated.View>
+                </View>
             </View>
         )
     }
@@ -158,7 +162,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        favoritesFilm: state.toggleFavorite.favoritesFilm
+        looks: state.setLooks.looks
     }
 }
 

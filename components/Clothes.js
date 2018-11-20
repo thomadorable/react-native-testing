@@ -14,6 +14,8 @@ class Clothes extends React.Component {
         this.state = {
             refreshing: false,
         };
+
+        console.log('loaded clothes =>', this.props.clothes);
     }
 
     _onRefresh = () => {

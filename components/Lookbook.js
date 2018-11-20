@@ -7,7 +7,7 @@ import Avatar from './Avatar'
 import Colors from '../constants/Colors'
 import { getJSON } from '../API/registerApi'
 import Look from './Look'
-
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 class Lookbooks extends React.Component {
     constructor(props) {
@@ -36,6 +36,7 @@ class Lookbooks extends React.Component {
     }
 
     _onRefresh = () => {
+        ReactNativeHapticFeedback.trigger('impactLight', true);
         this.setState({ refreshing: true });
         this.scrape(true);
     }
@@ -175,22 +176,22 @@ const styles = StyleSheet.create({
     },
     tab: {
         flex: 1,
-        padding: 10,
+        padding: 12,
         margin: 10,
         backgroundColor: Colors.bg,
         shadowColor: '#a3a3a5',
-        shadowOffset: { width: -2, height: -7 },
-        shadowOpacity: 0.5,
+        shadowOffset: { width: -2, height: -5 },
+        shadowOpacity: 0.6,
         shadowRadius: 8,
         borderRadius: 2,
         borderWidth: 1,
         borderColor: 'white'
     },
     tabText: {
-        fontFamily: 'RozhaOne-Regular',
-        fontSize: 16,
-        color: '#292929',
-        textAlign: 'center'
+        fontFamily: 'LydianBT-Roman',
+        fontSize: 17,
+        textAlign: 'center',
+        letterSpacing: 0.2
     },
     tab_container : {
         flexDirection: 'row',

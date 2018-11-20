@@ -1,5 +1,6 @@
 // Store/Reducers/userReducer.js
 import { getData, setData } from '../../utils/datas.js'
+import getUser from '../../utils/getUser.js'
 
 const initialState = { user: {} }
 
@@ -21,22 +22,17 @@ function setUser(state = initialState, action) {
 
 
         case 'INIT_USER':
+            // TODO tej this & remove file
+            const user = getUser();
 
             nextState = {
                 ...state,
-                user: action.value
+                user: user
             };
-
-            if (!nextState.user.avatar) {
-                nextState.user.avatar =
-                    require('../../assets/images/avatar.png')
-            }
-
-            console.log('init =>', nextState);
 
             // TODO : update back data before push in local data 
             // (maybe local data are more recent)
-            setData('@Vera:user', nextState.user);
+            // setData('@Vera:user', nextState.user);
 
             return nextState || state;
         default:
