@@ -1,4 +1,4 @@
-// Components/Lookbooks.js
+// Components/MyLooks.js
 
 import React from 'react'
 import { ScrollView, RefreshControl, StyleSheet, View, ActivityIndicator, Text, Dimensions, TouchableOpacity } from 'react-native'
@@ -6,12 +6,11 @@ import { ScrollView, RefreshControl, StyleSheet, View, ActivityIndicator, Text, 
 import Avatar from './Avatar'
 import Tabs from './Tabs'
 import Colors from '../constants/Colors'
-import { getJSON } from '../API/registerApi'
 import Look from './Look'
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { connect } from 'react-redux'
 
-class Lookbooks extends React.Component {
+class MyLooks extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,49 +28,33 @@ class Lookbooks extends React.Component {
         this.nb_img_per_page = 20;
     }
 
-    _scrollToTop = () => {
-        this.props.navigation.navigate('Lookbook');
-        this.refs._scrollView.scrollTo({x: 0, y: 0, animated: true});
-    }
-
     componentDidMount() {
         this._getLooks();
+    }
+
+    componentWillReceiveProps(receive){
+        this.setState({
+            looks: receive.looks,
+        });
     }
 
     _onRefresh = () => {
         ReactNativeHapticFeedback.trigger('impactLight', true);
         this.setState({ refreshing: true });
-        this.scrape(true);
-    }
-
-    scrape = (isReloaded) => {
-        getJSON('generate', null, (looks) => {
-            console.log('generated : ', looks);
-
-            if (isReloaded) {
-                this.setState({
-                    currentPage: 0,
-                    looks: [],
-                }, this._getLooks)
-            }
-        })
+        // TODO : refresh my looks ?
     }
 
     _getLooks = () => {
-        const data = new FormData();
-        data.append('page', this.state.currentPage);
+        // todo : pagination
+        var looks = this.props.looks;
+        this.setState({
+            looks: [...this.state.looks, ...looks],
+            refreshing: false
+        });
 
-        getJSON('insta', data, (looks) => {
-            this.setState({
-                looks: [...this.state.looks, ...looks],
-                currentPage: this.state.currentPage + 1,
-                refreshing: false
-            });
-    
-            setTimeout(() => {
-                this.isLoadMoreLocker = false;
-            }, (1000));
-        })
+        setTimeout(() => {
+            this.isLoadMoreLocker = false;
+        }, (1000));
     }
 
     isCloseToBottom({layoutMeasurement, contentOffset, contentSize}) {
@@ -82,7 +65,7 @@ class Lookbooks extends React.Component {
         var looks = [];
         for (let i = 0; i < this.state.looks.length; i++) {
             const look = this.state.looks[i];
-            looks.push(<Look look={look} index={i} key={i} tab={0}/>);
+            looks.push(<Look look={look} index={i} key={i} tab={1}/>);
         }
 
         return (
@@ -90,7 +73,6 @@ class Lookbooks extends React.Component {
                 {looks}
             </View>
         )
-
     }
 
     render() {
@@ -100,7 +82,7 @@ class Lookbooks extends React.Component {
             <View style={styles.main_container}>
                 <Avatar />
                 
-                <Tabs navigation={this.props.navigation} currentTab={0} />
+                <Tabs navigation={this.props.navigation} currentTab={1} />
 
                 <ScrollView
                     ref='_scrollView'
@@ -116,8 +98,10 @@ class Lookbooks extends React.Component {
                             // TODO TOFIX ne pas load à l'infini quand il n'y en a plus (eh oui)
                             this.isLoadMoreLocker = true;
 
-                            this._getLooks(); 
-                            this.scrape(false);
+                            
+                            if (this.state.currentTab === 0) {
+                                this._getLooks(); // TODO TOFIX sortir ça du currentab 0
+                            }
                         }
                     }}
                     >
@@ -132,6 +116,32 @@ const styles = StyleSheet.create({
     main_container: {
         flex: 1,
         backgroundColor: Colors.bg
+    },
+    tab: {
+        flex: 1,
+        padding: 12,
+        margin: 10,
+        backgroundColor: Colors.bg,
+        shadowColor: '#a3a3a5',
+        shadowOffset: { width: -2, height: -5 },
+        shadowOpacity: 0.6,
+        shadowRadius: 8,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: 'white'
+    },
+    tabText: {
+        fontFamily: 'LydianBT-Roman',
+        fontSize: 17,
+        textAlign: 'center',
+        letterSpacing: 0.2
+    },
+    tab_container : {
+        flexDirection: 'row',
+        margin: 10
+    }, 
+    activeTab: {
+        borderColor: '#a3a3a5',
     }
 })
 
@@ -141,4 +151,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Lookbooks)
+export default connect(mapStateToProps)(MyLooks)

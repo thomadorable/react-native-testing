@@ -23,14 +23,16 @@ class Loading extends Component {
 
         getRegister((onlineUser) => {
             if (onlineUser) {
-                // TODO TOFIX : wait before isLoading true
                 this.props.dispatch({type: "INIT_USER" })
                 this.props.dispatch({type: "INIT_LOOKS" })
                 this.props.dispatch({type: "INIT_CLOTHES", value: onlineUser })
 
-                this.setState({
-                    isLoading: false,
-                });
+                // TODO TOFIX : wait before isLoading true
+                setTimeout(() => {
+                    this.setState({
+                        isLoading: false,
+                    });
+                }, 400)
             } else {
                 alert('erreur pas d\'utilisateur ??? ')
             }
@@ -40,7 +42,6 @@ class Loading extends Component {
     _displayLoading() {
         return (
             <View style={styles.loading_container}>
-                {/* <ActivityIndicator size='large' color="red"/> */}
                 <Image
                     style={{width: 234, height: 154}}
                     source={require('../assets/images/splash.png')}

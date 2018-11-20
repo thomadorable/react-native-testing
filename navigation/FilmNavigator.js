@@ -1,11 +1,12 @@
 // Navigation/Navigation.js
 
-import React from 'react' // N'oubliez pas l'import de React ici. On en a besoin pour rendre nos components React Native Image ! 
+import React from 'react'
 import { StyleSheet, Image } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 import Camera from '../components/Camera'
 import Clothes from '../components/Clothes'
 import Lookbook from '../components/Lookbook'
+import MyLooks from '../components/MyLooks'
 import CustomHeader from '../components/CustomHeader'
 
 const CameraStackNavigator = createStackNavigator({
@@ -33,6 +34,13 @@ const LookbookStackNavigator = createStackNavigator({
         screen: Lookbook,
         navigationOptions: {
             header: props => <CustomHeader {...props} title="Lookbook"/>,
+            animationEnabled: true
+        }
+    },
+    MyLooks: {
+        screen: MyLooks,
+        navigationOptions: {
+            header: props => <CustomHeader {...props} title="Mes looks"/>,
             animationEnabled: true
         }
     }

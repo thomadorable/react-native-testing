@@ -59,28 +59,30 @@ class Look extends React.Component {
         ]).start();
 
         console.log('add look : ', this.props.look)
-        const look = {
-            id: this.props.look.id,
-            shortcode: this.props.look.shortcode,
-            added_date: Date.now()
-        };
-        this.props.dispatch({type: "ADD_LOOK", value: look })
+        this.props.dispatch({type: "ADD_LOOK", value: this.props.look })
     }
 
-    validate() {
-
-    }
-
-    refuse() {
-
+    _delete = () => {
+        console.log('delete')
+        this.props.dispatch({type: "REMOVE_LOOK", value: this.props.look })
     }
 
     doubleTap = () => {
-        const now = Date.now();
-        if (this.lastTap && (now - this.lastTap) < 300) {
-            this._toggleLike();
-        } else {
-            this.lastTap = now;
+        if(this.props.tab === 0) {
+            const now = Date.now();
+            if (this.lastTap && (now - this.lastTap) < 300) {
+                this._toggleLike();
+            } else {
+                this.lastTap = now;
+            }
+        }
+    }
+
+    _showDeleteButton = () => {
+        if(this.props.tab === 1) {
+            return (
+                <Button title="Delete" onPress={this._delete}/>
+            )
         }
     }
 
@@ -95,6 +97,7 @@ class Look extends React.Component {
                         source={require('../assets/images/like.png')}
                     />
                 </View>
+
             </TouchableWithoutFeedback>
         )
     }
@@ -128,6 +131,8 @@ class Look extends React.Component {
                         {this._displayFavoriteImage()}
                     </Animated.View>
                 </View>
+
+                {this._showDeleteButton()}
             </View>
         )
     }
@@ -159,10 +164,9 @@ const styles = StyleSheet.create({
     }
 })
 
-
 const mapStateToProps = (state) => {
     return {
-        looks: state.setLooks.looks
+        // looks: state.setLooks.looks
     }
 }
 
