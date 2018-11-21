@@ -1,8 +1,7 @@
 // Store/Reducers/lookReducer.js
-import { getData, setData } from '../../utils/datas.js'
-import { setJSON, getJSON } from '../../API/registerApi'
+import { setData, getStockedData, setJSON } from '../../utils/datas.js'
 
-const initialState = { looks: {} }
+const initialState = { looks: [] }
 
 function setLooks (state = initialState, action) {
     let nextState
@@ -59,14 +58,8 @@ function setLooks (state = initialState, action) {
 
 
         case 'INIT_LOOKS':
-            getJSON('looks', new FormData(), (looks) => {
-                if (looks) {
-                    looks = JSON.parse(looks);
-                } else {
-                    looks = [];
-                }
+            getStockedData('looks', (looks) => {
                 initialState.looks = looks;
-                console.log('init looks =>', looks)
             });
 
             return nextState || state;

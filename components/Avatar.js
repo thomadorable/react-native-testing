@@ -4,7 +4,7 @@ import React from 'react'
 import { ActivityIndicator, View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-picker'
-import { setAvatar, getRegister } from '../API/registerApi'
+import { setAvatar } from '../API/registerApi'
 import ImageResizer from 'react-native-image-resizer';
 
 class Avatar extends React.Component {
@@ -107,8 +107,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-        backgroundColor: 'white',
-        padding: 20
+        padding: 20,
+        paddingBottom: 0
     },
     touchableOpacity: {
         justifyContent: 'center',
@@ -122,8 +122,7 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     pseudo: {
-        fontSize: 16,
-        textAlign: 'right',
+        fontSize: 14,
         fontWeight: 'bold'
     }
 })

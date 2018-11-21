@@ -19,8 +19,6 @@ class Loading extends Component {
     };
 
     componentWillMount() {
-        console.log('will mount !!!!!');
-
         getRegister((onlineUser) => {
             if (onlineUser) {
                 this.props.dispatch({type: "INIT_USER" })

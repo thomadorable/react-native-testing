@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import Avatar from './Avatar'
 import Colors from '../constants/Colors'
 import Clothe from './Clothe'
-
+import Tab from './Tab'
 
 class Clothes extends React.Component {
     constructor(props) {
@@ -35,7 +35,7 @@ class Clothes extends React.Component {
             }
 
             return (
-                <View style={{flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 10}}>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop: 20}}>
                     {clothes}
                 </View>
             )
@@ -46,6 +46,7 @@ class Clothes extends React.Component {
         return (
             <View style={styles.main_container}>
                 <Avatar />
+
                 <ScrollView
                     style={{flex: 1}}
                     refreshControl={

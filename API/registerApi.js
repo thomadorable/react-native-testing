@@ -1,28 +1,7 @@
-import { NetInfo, Platform } from 'react-native'
-import { getData, setData } from '../utils/datas.js'
-
-var current_user = null;
-
-getData('@Vera:user', [], (user) => {
-    current_user = user;
-});
-
-var baseUrl = 'http://thomasderoua.fr/vera';
-// baseUrl = 'http://localhost/vera-api';
-
-function isNetworkConnected() {
-    if (Platform.OS === 'ios') {
-      return new Promise(resolve => {
-        const handleFirstConnectivityChangeIOS = isConnected => {
-          NetInfo.isConnected.removeEventListener('connectionChange', handleFirstConnectivityChangeIOS);
-          resolve(isConnected);
-        };
-        NetInfo.isConnected.addEventListener('connectionChange', handleFirstConnectivityChangeIOS);
-      });
-    }
-  
-    return NetInfo.isConnected.fetch();
-}
+import { getData } from '../utils/datas.js'
+import { isNetworkConnected } from '../utils/checkNetwork'
+import constants from '../constants/Env'
+const baseUrl = constants.baseUrl;
 
 export async function getRegister(callback) {
     // TODO : tester url before fetch
@@ -33,11 +12,10 @@ export async function getRegister(callback) {
                 .then((json) => callback(json))
                 .catch((error) => console.error(error))
         } else {
-            alert('pas de connexion !')
+            alert('pas de connexion pour l\'user')
             getData('@Vera:user', null, (user) => {
                 callback(user);
             });
-            
         }
     });
 }
@@ -79,49 +57,6 @@ export function setSnap(data, callback) {
             .catch((error) => console.error(error))
         } else {
             callback(null);
-        }
-    });
-}
-
-
-// SET DATA FUNCTION
-export function setJSON(file, data, callback) {
-    isNetworkConnected().done((isConnected) => {
-        if (isConnected) {
-            data.append('user_id', current_user.id);
-
-            return fetch(baseUrl + '/' + file + '.php', {
-                method: 'post',
-                body: data,
-            })
-            .then((response) => response.text())
-            .then((json) => callback(json))
-            .catch((error) => console.error(error))
-        } else {
-            callback(null);
-        }
-    });
-}
-
-export function getJSON(file, data, callback) {
-    isNetworkConnected().done((isConnected) => {
-        if (isConnected) {
-            if (data) {
-                data.append('user_id', current_user.id);
-            }
-
-            return fetch(baseUrl + '/' + file + '.php', {
-                method: 'post',
-                body: data,
-            })
-            .then((response) => response.json())
-            .then((json) => callback(json))
-            .catch((error) => console.error(error))
-        } else {
-            alert('pas de connexion')
-            getData('@Vera:' + file, [], (datas) => {
-                callback(datas);
-            });
         }
     });
 }

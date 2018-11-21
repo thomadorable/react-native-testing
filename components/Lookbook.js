@@ -1,12 +1,12 @@
 // Components/Lookbooks.js
 
 import React from 'react'
-import { ScrollView, RefreshControl, StyleSheet, View, ActivityIndicator, Text, Dimensions, TouchableOpacity } from 'react-native'
+import { ScrollView, RefreshControl, StyleSheet, View, ActivityIndicator, Text, Dimensions, Animated, Easing } from 'react-native'
 // import { connect } from 'react-redux'
 import Avatar from './Avatar'
 import Tabs from './Tabs'
 import Colors from '../constants/Colors'
-import { getJSON } from '../API/registerApi'
+import { getJSON } from '../utils/datas.js'
 import Look from './Look'
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { connect } from 'react-redux'
@@ -19,6 +19,9 @@ class Lookbooks extends React.Component {
             currentPage: 0,
             looks: []
         };
+
+        this.preLoadOpacity = new Animated.Value(0);
+        this.isPreLoad = true;
 
         this.isLoadMoreLocker = true;
 
@@ -34,7 +37,7 @@ class Lookbooks extends React.Component {
         this.refs._scrollView.scrollTo({x: 0, y: 0, animated: true});
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this._getLooks();
     }
 
@@ -62,12 +65,27 @@ class Lookbooks extends React.Component {
         data.append('page', this.state.currentPage);
 
         getJSON('insta', data, (looks) => {
-            this.setState({
-                looks: [...this.state.looks, ...looks],
-                currentPage: this.state.currentPage + 1,
-                refreshing: false
-            });
-    
+            if (this.isPreLoad) {
+                console.log('render preload')
+                this.isPreLoad = false;
+            }
+
+            if (looks) {
+                this.setState({
+                    looks: [...this.state.looks, ...looks],
+                    currentPage: this.state.currentPage + 1,
+                    refreshing: false
+                }, () => {
+                    Animated.timing(
+                        this.preLoadOpacity, {
+                            toValue: 1,
+                            duration: 300,
+                            easing: Easing.linear
+                        }
+                    ).start();
+                });
+            }
+
             setTimeout(() => {
                 this.isLoadMoreLocker = false;
             }, (1000));
@@ -86,21 +104,32 @@ class Lookbooks extends React.Component {
         }
 
         return (
-            <View style={{flex: 1}}>
+            <Animated.View style={{flex: 1, opacity: this.preLoadOpacity}}>
                 {looks}
-            </View>
+            </Animated.View>
         )
+    }
 
+
+    _preLoad() {
+        if (this.isPreLoad) {
+            return(
+                <View style={{flex: 0.8, justifyContent: 'flex-end'}}>
+                    <ActivityIndicator size='small' color="#494949" />
+                </View>
+            )
+        }
     }
 
     render() {
-        console.log('render lookbook page')
-        // TODO TOFIX : add "loader" before mount
+        console.log('render lookbook page', this.isPreLoad)
         return (
             <View style={styles.main_container}>
                 <Avatar />
                 
                 <Tabs navigation={this.props.navigation} currentTab={0} />
+
+                {this._preLoad()}
 
                 <ScrollView
                     ref='_scrollView'

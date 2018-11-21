@@ -7,16 +7,15 @@ import Avatar from './Avatar'
 import Tabs from './Tabs'
 import Colors from '../constants/Colors'
 import Look from './Look'
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { connect } from 'react-redux'
 
 class MyLooks extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            refreshing: true,
+            refreshing: false,
             currentPage: 0,
-            looks: []
+            looks: this.props.looks
         };
 
         this.isLoadMoreLocker = true;
@@ -29,7 +28,7 @@ class MyLooks extends React.Component {
     }
 
     componentDidMount() {
-        this._getLooks();
+        // this._getLooks();
     }
 
     componentWillReceiveProps(receive){
@@ -39,22 +38,21 @@ class MyLooks extends React.Component {
     }
 
     _onRefresh = () => {
-        ReactNativeHapticFeedback.trigger('impactLight', true);
-        this.setState({ refreshing: true });
+        // this.setState({ refreshing: true });
         // TODO : refresh my looks ?
     }
 
     _getLooks = () => {
-        // todo : pagination
-        var looks = this.props.looks;
-        this.setState({
-            looks: [...this.state.looks, ...looks],
-            refreshing: false
-        });
+        // // todo : pagination
+        // var looks = this.props.looks;
+        // this.setState({
+        //     looks: [...this.state.looks, ...looks],
+        //     refreshing: false
+        // });
 
-        setTimeout(() => {
-            this.isLoadMoreLocker = false;
-        }, (1000));
+        // setTimeout(() => {
+        //     this.isLoadMoreLocker = false;
+        // }, (1000));
     }
 
     isCloseToBottom({layoutMeasurement, contentOffset, contentSize}) {
@@ -76,7 +74,7 @@ class MyLooks extends React.Component {
     }
 
     render() {
-        console.log('render lookbook page')
+        console.log('render my looks page')
         // TODO TOFIX : add "loader" before mount
         return (
             <View style={styles.main_container}>
@@ -95,13 +93,13 @@ class MyLooks extends React.Component {
                     scrollEventThrottle={300}
                     onScroll={({nativeEvent})=>{
                         if(this.isCloseToBottom(nativeEvent) && !this.state.refreshing && !this.isLoadMoreLocker) {
-                            // TODO TOFIX ne pas load à l'infini quand il n'y en a plus (eh oui)
-                            this.isLoadMoreLocker = true;
+                            // // TODO TOFIX ne pas load à l'infini quand il n'y en a plus (eh oui)
+                            // this.isLoadMoreLocker = true;
 
                             
-                            if (this.state.currentTab === 0) {
-                                this._getLooks(); // TODO TOFIX sortir ça du currentab 0
-                            }
+                            // if (this.state.currentTab === 0) {
+                            //     this._getLooks(); // TODO TOFIX sortir ça du currentab 0
+                            // }
                         }
                     }}
                     >

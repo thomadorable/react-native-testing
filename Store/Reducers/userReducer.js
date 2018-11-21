@@ -1,5 +1,5 @@
 // Store/Reducers/userReducer.js
-import { getData, setData } from '../../utils/datas.js'
+import { setData } from '../../utils/datas.js'
 import getUser from '../../utils/getUser.js'
 
 const initialState = { user: {} }

@@ -1,6 +1,5 @@
 // Store/Reducers/clothesReducer.js
-import { getData, setData } from '../../utils/datas.js'
-import { setJSON, getJSON } from '../../API/registerApi'
+import { setData, setJSON, getStockedData } from '../../utils/datas.js'
 
 const initialState = { clothes: [] }
 
@@ -29,14 +28,8 @@ function setClothes(state = initialState, action) {
 
 
         case 'INIT_CLOTHES':
-            getJSON('clothes', new FormData(), (clothes) => {
-                if (clothes) {
-                    clothes = JSON.parse(clothes);
-                } else {
-                    clothes = [];
-                }
+            getStockedData('clothes', (clothes) => {
                 initialState.clothes = clothes;
-                console.log('init clothes =>', clothes)
             });
             return nextState || state;
         default:

@@ -8,6 +8,7 @@ import Clothes from '../components/Clothes'
 import Lookbook from '../components/Lookbook'
 import MyLooks from '../components/MyLooks'
 import CustomHeader from '../components/CustomHeader'
+import { fadeIn } from 'react-navigation-transitions';
 
 const CameraStackNavigator = createStackNavigator({
     Camera: {
@@ -26,8 +27,20 @@ const ClothesStackNavigator = createStackNavigator({
             header: props => <CustomHeader {...props} title="My clothes"/>,
             animationEnabled: true
         }
+    },
+    Camera: {
+        screen: Camera,
+        navigationOptions: {
+            header: props => <CustomHeader {...props} title="Add clothes"/>,
+            animationEnabled: true
+        }
     }
+},
+{
+    initialRouteName: 'Clothes',
+    transitionConfig: () => fadeIn(300),
 })
+
 
 const LookbookStackNavigator = createStackNavigator({
     Lookbook: {
@@ -44,6 +57,10 @@ const LookbookStackNavigator = createStackNavigator({
             animationEnabled: true
         }
     }
+},
+{
+    initialRouteName: 'Lookbook',
+    transitionConfig: () => fadeIn(300),
 })
 
 const MoviesTabNavigator = createBottomTabNavigator(
@@ -107,7 +124,8 @@ const MoviesTabNavigator = createBottomTabNavigator(
     {
         initialRouteName: 'Lookbook',
         tabBarOptions: {
-            inactiveBackgroundColor: '#FFFFFF',
+            activeBackgroundColor: 'white',
+            inactiveBackgroundColor: 'white',
             showLabel: false,
             showIcon: true,
             activeTintColor: '#292929',
