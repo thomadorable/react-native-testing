@@ -27,20 +27,8 @@ const ClothesStackNavigator = createStackNavigator({
             header: props => <CustomHeader {...props} title="My clothes"/>,
             animationEnabled: true
         }
-    },
-    Camera: {
-        screen: Camera,
-        navigationOptions: {
-            header: props => <CustomHeader {...props} title="Add clothes"/>,
-            animationEnabled: true
-        }
     }
-},
-{
-    initialRouteName: 'Clothes',
-    transitionConfig: () => fadeIn(300),
 })
-
 
 const LookbookStackNavigator = createStackNavigator({
     Lookbook: {
