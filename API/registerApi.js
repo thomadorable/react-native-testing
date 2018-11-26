@@ -3,7 +3,6 @@ import { isNetworkConnected } from '../utils/checkNetwork'
 import constants from '../constants/Env'
 const baseUrl = constants.baseUrl;
 
-// TODO TOFIX récupérer le front en 1er
 export async function getCurrentUser(callback) {
     getData('@Vera:user', null, (localUser) => {
         if (localUser) {
@@ -30,34 +29,10 @@ export async function getCurrentUser(callback) {
     });
 }
 
-
-export async function loginFbUser (data, callback) {
+export async function loginMailUser (formData, callback) {
     // TODO TOFIX : tester url before fetch
     isNetworkConnected().done((isConnected) => {
         if (isConnected) {
-            
-
-            return fetch(baseUrl + '/login.php', {
-                    method: 'post',
-                    body: data,
-                })
-                .then((response) => response.json())
-                .then((json) => callback(json))
-                .catch((error) => console.error(error))
-        } else {
-            callback(null);
-        }
-    });
-}
-
-export async function loginMailUser (credentials, callback) {
-    // TODO TOFIX : tester url before fetch
-    isNetworkConnected().done((isConnected) => {
-        if (isConnected) {
-            var formData = new FormData();
-            formData.append('mail', credentials.mail);
-            formData.append('password', credentials.password);
-
             return fetch(baseUrl + '/login.php', {
                     method: 'post',
                     body: formData,

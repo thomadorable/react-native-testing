@@ -3,7 +3,6 @@ import { View, Platform, Text, Button, TouchableWithoutFeedback} from "react-nat
 import { setData } from '../utils/datas.js'
 
 const CustomHeader = props => {
-
     _logout = () => {
         setData('@Vera:user', null);
         props.navigation.navigate('AuthLoading')

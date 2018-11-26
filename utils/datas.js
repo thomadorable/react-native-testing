@@ -58,7 +58,7 @@ export function setJSON(file, data, callback) {
 export function getJSON(file, data, callback) {
     isNetworkConnected().done((isConnected) => {
         if (isConnected) {
-            if (data) {
+            if (data && current_user) {
                 data.append('user_id', current_user.id);
             }
 

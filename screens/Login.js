@@ -1,45 +1,44 @@
 // screens/Loading.js
 
 import React, { Component } from 'react';
-import { TextInput, Text, StyleSheet, View, TouchableOpacity, Button } from 'react-native';
+import {StyleSheet, View, Button } from 'react-native';
 import { connect } from 'react-redux'
-import { loginFbUser, loginMailUser, loginGoogleUser } from '../API/registerApi'
-import { setData, updateUser } from '../utils/datas.js'
-import { GoogleSignin, statusCodes } from 'react-native-google-signin';
-
-
-var FBLoginButton = require('../components/FBLoginButton');
+import { setData, getJSON, updateUser } from '../utils/datas.js'
+import { GoogleSignin } from 'react-native-google-signin';
+import { LoginManager, GraphRequest, GraphRequestManager } from "react-native-fbsdk";
+import LoginForm from '../components/LoginForm'
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading: false
         };
 
         GoogleSignin.configure();
     }
 
-    _googleLogin = async () => {
+    _googleLogin = async (loginOrRegister) => {
         try {
             await GoogleSignin.hasPlayServices();
             const user = await GoogleSignin.signIn();
             var formData = new FormData();
             formData.append('googleID', user.user.id);
-            this._facebookLogin(formData);
+            this._facebookLogin(formData, loginOrRegister);
 
         } catch (error) {
             console.log('error =>', error)
         }
     }
 
-    _facebookLogin = (formData) => {
-        loginFbUser(formData, (data) => {
+    _facebookLogin = (formData, loginOrRegister) => {
+        getJSON(loginOrRegister, formData, (data) => {
             if (!data) {
                 alert('Connexion internet requise');
             } else if (data.status === '200') {
                 this._loginUser(data.user);
             } else {
-                alert("Ce compte n'est associé à aucun compte Vera.");
+                alert("Cette adresse n'est associée à aucun compte Vera.");
             }
         });
     }
@@ -51,66 +50,89 @@ class Login extends Component {
         this.props.navigation.navigate('AuthLoading');
     }
 
-   
-
-
-    handleSubmit = () => {
-        loginMailUser({
-            mail: this.state.mail,
-            password: this.state.password
-        }, (data) => {
-            console.log('submit : ', data)
-            if (!data) {
-                alert('Connexion internet requise')
-            } else if (data.status === '200') {
-                this._loginUser(data.user);
-            } else {
-                alert("Les identifiants ne sont pas corrects.");
-            }
+    _registerPage = () => {
+        this.props.navigation.navigate('Register', {
+            login: this._loginUser
         });
     }
 
-    _loginForm = () => {
-        return (
-            <View>
-                <Text style={{ fontWeight: 'bold', marginBottom: 20, fontSize: 20 }}>
-                    Connexion
-                    </Text>
-                <TextInput
-                    ref={(input) => { this.loginInput = input; }}
-                    style={styles.input}
-                    placeholder="Adresse e-mail"
-                    textContentType="emailAddress"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    returnKeyType="next"
-                    onSubmitEditing={() => { this.passwordInput.focus(); }}
-                    blurOnSubmit={false}
-                    onChangeText={(mail) => this.setState({ mail })}
-                />
-                <TextInput
-                    ref={(input) => { this.passwordInput = input; }}
-                    style={styles.input}
-                    textContentType="password"
-                    placeholder="Mot de passe"
-                    secureTextEntry={true}
-                    returnKeyType="send"
-                    onSubmitEditing={this.handleSubmit}
-                    onChangeText={(password) => this.setState({ password })}
-                />
-                <TouchableOpacity onPress={this.handleSubmit}>
-                    <Text>Connexion</Text>
-                </TouchableOpacity>
-            </View>
-        )
+
+    _fbTryLogin = (loginOrRegister) => {
+        LoginManager.logInWithReadPermissions(["public_profile"]).then((result) => {
+            if (result.isCancelled) {
+                console.log("Login cancelled");
+            } else {
+                this.fetchProfile().then((profile) => {
+                    var formData = new FormData();
+                    formData.append('facebookID', profile.id);
+                    this._facebookLogin(formData, loginOrRegister);
+                }, (error) => {
+                    alert('Login fail with error')
+                    console.log('rejected', error)
+                });
+            }
+        }, (error) => {
+            console.log("Login fail with error: " + error);
+        });
+    }
+
+    fetchProfile = async () => {
+        return new Promise((resolve, reject) => {
+            const request = new GraphRequest('/me',
+                {
+                    parameters: {
+                        fields: {
+                            string: 'email, first_name, last_name, picture.type(large)' // what you want to get
+                        }
+                    }
+                }, (error, result) => {
+                    if (result) {
+                        resolve(result)
+                    } else {
+                        reject(error)
+                    }
+                }
+            )
+
+            new GraphRequestManager().addRequest(request).start()
+        })
     }
 
     render() {
         return (
             <View style={styles.container}>
-                {this._loginForm()}
-                <FBLoginButton login={this._facebookLogin} />
-                <Button title="connect with google" onPress={this._googleLogin} />
+                <LoginForm loginUser={this._loginUser}/>
+
+                <Button 
+                    onPress={() => {
+                        this._fbTryLogin('login')
+                    }}
+                    title="connect with facebook" />
+
+                <Button 
+                    title="connect with google" 
+                    onPress={() => {
+                        this._googleLogin('login');
+                    }} 
+                />
+                <View style={{width: 200, height: 1, backgroundColor: 'black', marginVertical: 20}}></View>
+
+                <View>
+                    <Button title="Register" onPress={this._registerPage} />
+                    <Button 
+                        title="Facebook register" 
+                        onPress={() => {
+                            this._fbTryLogin('register');
+                        }}
+                    />
+                    <Button
+                        title="Register google" 
+                        onPress={() => {
+                            this._googleLogin('register');
+                        }} 
+                    />
+                </View>
+                
             </View>
         );
     }
@@ -122,15 +144,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        width: 250,
-        padding: 10,
-        backgroundColor: 'white',
-        marginBottom: 10
     }
 });
 
