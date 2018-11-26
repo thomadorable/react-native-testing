@@ -31,16 +31,15 @@ export async function getCurrentUser(callback) {
 }
 
 
-export async function loginFbUser (facebookID, callback) {
+export async function loginFbUser (data, callback) {
     // TODO TOFIX : tester url before fetch
     isNetworkConnected().done((isConnected) => {
         if (isConnected) {
-            var formData = new FormData();
-            formData.append('facebookID', facebookID);
+            
 
             return fetch(baseUrl + '/login.php', {
                     method: 'post',
-                    body: formData,
+                    body: data,
                 })
                 .then((response) => response.json())
                 .then((json) => callback(json))

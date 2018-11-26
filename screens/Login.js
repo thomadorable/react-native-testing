@@ -1,12 +1,12 @@
 // screens/Loading.js
 
 import React, { Component } from 'react';
-import { TextInput, Text, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { TextInput, Text, StyleSheet, View, TouchableOpacity, Button } from 'react-native';
 import { connect } from 'react-redux'
-import { loginFbUser, loginMailUser } from '../API/registerApi'
+import { loginFbUser, loginMailUser, loginGoogleUser } from '../API/registerApi'
 import { setData, updateUser } from '../utils/datas.js'
+import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 
-import Form from 'react-native-form'
 
 var FBLoginButton = require('../components/FBLoginButton');
 
@@ -15,38 +15,54 @@ class Login extends Component {
         super(props);
         this.state = {
         };
+
+        GoogleSignin.configure();
     }
-    
+
+    _googleLogin = async () => {
+        try {
+            await GoogleSignin.hasPlayServices();
+            const user = await GoogleSignin.signIn();
+            var formData = new FormData();
+            formData.append('googleID', user.user.id);
+            this._facebookLogin(formData);
+
+        } catch (error) {
+            console.log('error =>', error)
+        }
+    }
+
+    _facebookLogin = (formData) => {
+        loginFbUser(formData, (data) => {
+            if (!data) {
+                alert('Connexion internet requise');
+            } else if (data.status === '200') {
+                this._loginUser(data.user);
+            } else {
+                alert("Ce compte n'est associé à aucun compte Vera.");
+            }
+        });
+    }
+
     _loginUser = (user) => {
-        console.log('connexion à ', user);
         setData('@Vera:user', user);
         updateUser();
 
         this.props.navigation.navigate('AuthLoading');
     }
 
-    _login = (profile) => {
-        loginFbUser(profile.id, (data) => {
-            if (!data) {
-                alert('Connexion internet requise');
-            } else if(data.status === '200') {
-                this._loginUser(data.user);
-            } else {
-                alert("Ce compte Facebook n'est associé à aucun compte Vera.");
-            }
-        });
-    }
+   
 
 
     handleSubmit = () => {
-        loginMailUser ({
+        loginMailUser({
             mail: this.state.mail,
             password: this.state.password
         }, (data) => {
             console.log('submit : ', data)
             if (!data) {
                 alert('Connexion internet requise')
-            } else if(data.status === '200') {
+            } else if (data.status === '200') {
                 this._loginUser(data.user);
             } else {
                 alert("Les identifiants ne sont pas corrects.");
@@ -57,7 +73,7 @@ class Login extends Component {
     _loginForm = () => {
         return (
             <View>
-                <Text style={{fontWeight: 'bold', marginBottom: 20, fontSize: 20}}>
+                <Text style={{ fontWeight: 'bold', marginBottom: 20, fontSize: 20 }}>
                     Connexion
                     </Text>
                 <TextInput
@@ -70,7 +86,7 @@ class Login extends Component {
                     returnKeyType="next"
                     onSubmitEditing={() => { this.passwordInput.focus(); }}
                     blurOnSubmit={false}
-                    onChangeText={(mail) => this.setState({mail})}
+                    onChangeText={(mail) => this.setState({ mail })}
                 />
                 <TextInput
                     ref={(input) => { this.passwordInput = input; }}
@@ -80,7 +96,7 @@ class Login extends Component {
                     secureTextEntry={true}
                     returnKeyType="send"
                     onSubmitEditing={this.handleSubmit}
-                    onChangeText={(password) => this.setState({password})}
+                    onChangeText={(password) => this.setState({ password })}
                 />
                 <TouchableOpacity onPress={this.handleSubmit}>
                     <Text>Connexion</Text>
@@ -93,7 +109,8 @@ class Login extends Component {
         return (
             <View style={styles.container}>
                 {this._loginForm()}
-                <FBLoginButton login={this._login}/>
+                <FBLoginButton login={this._facebookLogin} />
+                <Button title="connect with google" onPress={this._googleLogin} />
             </View>
         );
     }
@@ -115,7 +132,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         marginBottom: 10
     }
-  });
+});
 
 
 

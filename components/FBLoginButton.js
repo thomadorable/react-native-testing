@@ -27,7 +27,9 @@ export default class FBLoginButton extends Component {
                 console.log("Login cancelled");
             } else {
                 this.fetchProfile().then((profile) => {
-                    this.props.login(profile);
+                    var formData = new FormData();
+                    formData.append('facebookID', profile.id);
+                    this.props.login(formData);
                 }, (error) => {
                     alert('Login fail with error')
                     console.log('rejected', error)
