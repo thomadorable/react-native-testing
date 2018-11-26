@@ -5,9 +5,13 @@ const baseUrl = constants.baseUrl;
 
 var current_user = null;
 
-getData('@Vera:user', [], (user) => {
-    current_user = user;
-});
+export function updateUser() {
+    getData('@Vera:user', [], (user) => {
+        current_user = user;
+    });
+}
+
+updateUser();
 
 export async function getData (key, defaultValue, callback) {
     try {

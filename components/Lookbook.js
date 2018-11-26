@@ -15,7 +15,7 @@ class Lookbooks extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            refreshing: true,
+            refreshing: false,
             currentPage: 0,
             looks: []
         };
@@ -66,7 +66,6 @@ class Lookbooks extends React.Component {
 
         getJSON('insta', data, (looks) => {
             if (this.isPreLoad) {
-                console.log('render preload')
                 this.isPreLoad = false;
             }
 

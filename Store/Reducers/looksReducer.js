@@ -7,7 +7,7 @@ function setLooks (state = initialState, action) {
     let nextState
     switch (action.type) {
         case 'ADD_LOOK':
-            const lookIndex = state.looks.findIndex(item => item.id === action.value.id)
+            const lookIndex = state.looks.findIndex(item => item.id === action.value.id);
 
             if (lookIndex === -1) {
                 nextState = {

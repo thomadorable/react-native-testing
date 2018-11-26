@@ -21,7 +21,7 @@ class Look extends React.Component {
         Animated.sequence([
             Animated.parallel([
                 Animated.timing(this.anim_fav, {
-                        toValue: 1.3,
+                        toValue: 1,
                         duration: 200,
                         easing: Easing.ease
                     }
@@ -33,13 +33,13 @@ class Look extends React.Component {
                 })
             ]),
             Animated.timing(this.anim_fav, {
-                    toValue: 1,
+                    toValue: 0.7,
                     duration: 120,
                     easing: Easing.ease
                 }
             ),
             Animated.timing(this.anim_fav, {
-                    toValue: 1.1,
+                    toValue: 0.9,
                     duration: 120,
                     easing: Easing.ease
                 }
@@ -93,7 +93,7 @@ class Look extends React.Component {
             >
                 <View style={{flex: 1, position: 'absolute', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center'}}>
                     <Animated.Image
-                        style={{width: 90, height: 90, tintColor: 'white', transform: [{ scale: this.anim_fav }], opacity: this.anim_opacity}}
+                        style={{width: 130, height: 130, tintColor: 'white', transform: [{ scale: this.anim_fav }], opacity: this.anim_opacity}}
                         source={require('../assets/images/like.png')}
                     />
                 </View>
@@ -108,9 +108,8 @@ class Look extends React.Component {
                 style={styles.main_container}
             >
                 <View style={styles.titre_container}>
-                    <Text style={styles.titre}>#{this.props.look.tag} {this.props.look.id_insta}</Text>
+                    <Text style={styles.titre}>#{this.props.look.tag}</Text>
                     <Text style={styles.vote}>{this.props.look.likes} | {this.props.look.comments}</Text>
-
                 </View>
                 <View style={{backgroundColor: '#' + this.props.look.color}}>
                     <Animated.View style={{opacity: this.state.anim_load, position: 'relative'}}>
