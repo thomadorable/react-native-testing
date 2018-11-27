@@ -26,7 +26,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string></string>
+			<string/>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.614255675124-1gjt6pgm2tvsr37gagrsullfdueug9un</string>
@@ -72,7 +72,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) voudrait utiliser votre caméra</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) voudrait accéder à votre micro (pour les vidéos)</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

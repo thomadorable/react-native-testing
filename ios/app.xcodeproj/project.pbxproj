@@ -50,6 +50,7 @@
 		8965CB6221A31C1E0091B502 /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 8965CB6121A31C1E0091B502 /* splash.png */; };
 		8965CB6321A31C1E0091B502 /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 8965CB6121A31C1E0091B502 /* splash.png */; };
 		8973AF9B21AC70D900741F08 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8973AF6C21AC70D900741F08 /* GoogleService-Info.plist */; };
+		8973B08A21ACB29B00741F08 /* libReactNativeLocalization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8973B08521ACB28600741F08 /* libReactNativeLocalization.a */; };
 		89D1627C21ABFCE5003DF155 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89D1627821ABFCE3003DF155 /* FBSDKCoreKit.framework */; };
 		89D1627D21ABFCE5003DF155 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89D1627921ABFCE4003DF155 /* FBSDKShareKit.framework */; };
 		89D1627E21ABFCE5003DF155 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89D1627A21ABFCE4003DF155 /* FBSDKLoginKit.framework */; };
@@ -366,6 +367,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNReactNativeHapticFeedback;
 		};
+		8973B08421ACB28600741F08 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8973B05621ACB28600741F08 /* ReactNativeLocalization.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7B5D9D0A1B6AD0EA00CF3A83;
+			remoteInfo = ReactNativeLocalization;
+		};
 		89B1671A21AC6E9200718C33 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3BFF3D7596474CEAB0CD268A /* RNGoogleSignin.xcodeproj */;
@@ -445,6 +453,7 @@
 		8965CB5E21A31BAA0091B502 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		8965CB6121A31C1E0091B502 /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash.png; sourceTree = "<group>"; };
 		8973AF6C21AC70D900741F08 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8973B05621ACB28600741F08 /* ReactNativeLocalization.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeLocalization.xcodeproj; path = "../node_modules/react-native-localization/ReactNativeLocalization.xcodeproj"; sourceTree = "<group>"; };
 		89D1627821ABFCE3003DF155 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		89D1627921ABFCE4003DF155 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		89D1627A21ABFCE4003DF155 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
@@ -484,6 +493,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8973B08A21ACB29B00741F08 /* libReactNativeLocalization.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -706,6 +716,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				8973B05621ACB28600741F08 /* ReactNativeLocalization.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -818,6 +829,14 @@
 			isa = PBXGroup;
 			children = (
 				893FDBB921A31575005BE81A /* libRNImagePicker.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8973B05721ACB28600741F08 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8973B08521ACB28600741F08 /* libReactNativeLocalization.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1054,6 +1073,10 @@
 				{
 					ProductGroup = 893FDBAA21A31574005BE81A /* Products */;
 					ProjectRef = DDBAF3CD7DD44F47AD7B4377 /* ReactNativeHaptic.xcodeproj */;
+				},
+				{
+					ProductGroup = 8973B05721ACB28600741F08 /* Products */;
+					ProjectRef = 8973B05621ACB28600741F08 /* ReactNativeLocalization.xcodeproj */;
 				},
 				{
 					ProductGroup = 893FDBA821A31574005BE81A /* Products */;
@@ -1368,6 +1391,13 @@
 			fileType = archive.ar;
 			path = libRNReactNativeHapticFeedback.a;
 			remoteRef = 893FDBBB21A31575005BE81A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8973B08521ACB28600741F08 /* libReactNativeLocalization.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeLocalization.a;
+			remoteRef = 8973B08421ACB28600741F08 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		89B1671B21AC6E9200718C33 /* libRNGoogleSignin.a */ = {

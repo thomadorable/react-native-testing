@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-picker'
 import { setAvatar } from '../API/registerApi'
 import ImageResizer from 'react-native-image-resizer';
+import t from '../utils/translation.js';
 
 class Avatar extends React.Component {
 
@@ -89,7 +90,7 @@ class Avatar extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={{flexDirection: 'column'}}>
-                    <Text style={styles.pseudo}>Welcome, {this.props.user.name}</Text>
+                    <Text style={styles.pseudo}>{t.welcome}, {this.props.user.name}</Text>
                 </View>
                 <TouchableOpacity
                     style={styles.touchableOpacity}

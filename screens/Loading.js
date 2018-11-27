@@ -1,9 +1,8 @@
 // screens/Loading.js
 
 import React, { Component } from 'react';
-import { ActivityIndicator, StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { connect } from 'react-redux'
-
 import { getCurrentUser } from '../API/registerApi'
 
 class Loading extends Component {
@@ -11,6 +10,7 @@ class Loading extends Component {
         isLoading: true,
         isAuth: false
     };
+
 
     componentWillMount() {
         getCurrentUser((onlineUser) => {

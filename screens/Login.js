@@ -2,11 +2,12 @@
 
 import React, { Component } from 'react';
 import {StyleSheet, View, Button } from 'react-native';
-import { connect } from 'react-redux'
 import { setData, getJSON, updateUser } from '../utils/datas.js'
 import { GoogleSignin } from 'react-native-google-signin';
 import { LoginManager, GraphRequest, GraphRequestManager } from "react-native-fbsdk";
 import LoginForm from '../components/LoginForm'
+import t from '../utils/translation.js';
+import Colors from '../constants/Colors.js';
 
 class Login extends Component {
     constructor(props) {
@@ -34,11 +35,11 @@ class Login extends Component {
     _facebookLogin = (formData, loginOrRegister) => {
         getJSON(loginOrRegister, formData, (data) => {
             if (!data) {
-                alert('Connexion internet requise');
+                alert(t.networkNeeded);
             } else if (data.status === '200') {
                 this._loginUser(data.user);
             } else {
-                alert("Cette adresse n'est associée à aucun compte Vera.");
+                alert(t.noAccountFound);
             }
         });
     }
@@ -59,9 +60,7 @@ class Login extends Component {
 
     _fbTryLogin = (loginOrRegister) => {
         LoginManager.logInWithReadPermissions(["public_profile"]).then((result) => {
-            if (result.isCancelled) {
-                console.log("Login cancelled");
-            } else {
+            if (!result.isCancelled) {
                 this.fetchProfile().then((profile) => {
                     var formData = new FormData();
                     formData.append('facebookID', profile.id);
@@ -78,21 +77,19 @@ class Login extends Component {
 
     fetchProfile = async () => {
         return new Promise((resolve, reject) => {
-            const request = new GraphRequest('/me',
-                {
-                    parameters: {
-                        fields: {
-                            string: 'email, first_name, last_name, picture.type(large)' // what you want to get
-                        }
-                    }
-                }, (error, result) => {
-                    if (result) {
-                        resolve(result)
-                    } else {
-                        reject(error)
+            const request = new GraphRequest('/me', {
+                parameters: {
+                    fields: {
+                        string: 'email, first_name, last_name, picture.type(large)' // what you want to get
                     }
                 }
-            )
+            }, (error, result) => {
+                if (result) {
+                    resolve(result)
+                } else {
+                    reject(error)
+                }
+            })
 
             new GraphRequestManager().addRequest(request).start()
         })
@@ -107,10 +104,10 @@ class Login extends Component {
                     onPress={() => {
                         this._fbTryLogin('login')
                     }}
-                    title="connect with facebook" />
+                    title={t.facebookLogin} />
 
                 <Button 
-                    title="connect with google" 
+                    title={t.googleLogin}
                     onPress={() => {
                         this._googleLogin('login');
                     }} 
@@ -118,15 +115,15 @@ class Login extends Component {
                 <View style={{width: 200, height: 1, backgroundColor: 'black', marginVertical: 20}}></View>
 
                 <View>
-                    <Button title="Register" onPress={this._registerPage} />
+                    <Button title={t.register} onPress={this._registerPage} />
                     <Button 
-                        title="Facebook register" 
+                        title={t.facebookRegister}
                         onPress={() => {
                             this._fbTryLogin('register');
                         }}
                     />
                     <Button
-                        title="Register google" 
+                        title={t.googleRegister}
                         onPress={() => {
                             this._googleLogin('register');
                         }} 
@@ -144,14 +141,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: Colors.bg
     }
 });
 
-
-
-const mapStateToProps = state => {
-    return {
-    }
-}
-
-export default connect(mapStateToProps)(Login)
+export default Login

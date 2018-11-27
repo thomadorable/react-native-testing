@@ -9,12 +9,14 @@ import Lookbook from '../components/Lookbook'
 import MyLooks from '../screens/MyLooks'
 import CustomHeader from '../components/CustomHeader'
 import { fadeIn } from 'react-navigation-transitions';
+import t from '../utils/translation.js';
+
 
 const CameraStackNavigator = createStackNavigator({
     Camera: {
         screen: Camera,
         navigationOptions: {
-            header: props => <CustomHeader {...props} title="Add clothes"/>,
+            header: props => <CustomHeader {...props} title={t.page.title.camera}/>,
             animationEnabled: true
         }
     }
@@ -24,7 +26,7 @@ const ClothesStackNavigator = createStackNavigator({
     Clothes: {
         screen: Clothes,
         navigationOptions: {
-            header: props => <CustomHeader {...props} title="My clothes"/>,
+            header: props => <CustomHeader {...props} title={t.page.title.clothes}/>,
             animationEnabled: true
         }
     }
@@ -41,7 +43,7 @@ const LookbookStackNavigator = createStackNavigator({
     MyLooks: {
         screen: MyLooks,
         navigationOptions: {
-            header: props => <CustomHeader {...props} title="Mes looks"/>,
+            header: props => <CustomHeader {...props} title={t.page.title.looks}/>,
             animationEnabled: true
         }
     }

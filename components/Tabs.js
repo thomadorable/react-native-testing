@@ -1,10 +1,10 @@
 // screens/MyLooks.js
 
 import React from 'react'
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
-import Colors from '../constants/Colors'
+import { StyleSheet, View } from 'react-native'
 import Tab from './Tab'
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import t from '../utils/translation.js';
 
 class Tabs extends React.Component {
     constructor(props) {
@@ -27,7 +27,7 @@ class Tabs extends React.Component {
         return (
             <View style={styles.tab_container}>
                 <Tab index={0} name="Lookbook" switchTab={this.switchTab} currentTab={this.props.currentTab}/>
-                <Tab index={1} name="Mes looks" switchTab={this.switchTab} currentTab={this.props.currentTab}/>
+                <Tab index={1} name={t.page.title.looks} switchTab={this.switchTab} currentTab={this.props.currentTab}/>
             </View>
         )
     }

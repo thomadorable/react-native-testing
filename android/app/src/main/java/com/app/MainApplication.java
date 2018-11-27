@@ -3,6 +3,11 @@ package com.app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import io.fixd.rctlocale.RCTLocalePackage;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+import com.reactcommunity.rnlanguages.RNLanguagesPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -31,6 +36,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeLocalizationPackage(),
+            new RNDeviceInfo(),
+            new RCTLocalePackage(),
+            new RNI18nPackage(),
+            new RNLanguagesPackage(),
             new RNGoogleSigninPackage(),
             new FBSDKPackage(),
             new LinearGradientPackage(),

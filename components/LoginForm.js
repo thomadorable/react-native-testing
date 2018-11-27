@@ -4,6 +4,7 @@ import React from 'react'
 import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
 import Layout from '../constants/Layout'
 import { getJSON } from '../utils/datas.js'
+import t from '../utils/translation.js';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -29,11 +30,11 @@ class LoginForm extends React.Component {
 
                 console.log('submit : ', data)
                 if (!data) {
-                    alert('Connexion internet requise')
+                    alert(t.networkNeeded)
                 } else if (data.status === '200') {
                     this.props.loginUser(data.user);
                 } else {
-                    alert("Les identifiants ne sont pas corrects.");
+                    alert(t.wrongCredentials);
                 }
             });
         }
@@ -68,7 +69,7 @@ class LoginForm extends React.Component {
                     onChangeText={(password) => this.setState({ password })}
                 />
                 <Button 
-                    title="connect with google" 
+                    title={t.login}
                     onPress={this.handleSubmit} 
                 />
             </View>
