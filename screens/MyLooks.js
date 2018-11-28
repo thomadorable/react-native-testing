@@ -61,7 +61,7 @@ class MyLooks extends React.Component {
 
     _displayLookbook() {
         if (!this.state.refreshing) {
-            return (<Mosaic clothes={this.state.looks} />);
+            return (<Mosaic clothes={this.state.looks}  navigation={this.props.navigation} />);
         }
     }
 

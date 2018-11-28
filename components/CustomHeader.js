@@ -28,7 +28,6 @@ const CustomHeader = props => {
     }
 
     _showLogout = () => {
-        console.log(props.user)
         if (props.user && props.user.id) {
             return (
                 <View style={{position: 'absolute', right: 10, bottom: 10}}>

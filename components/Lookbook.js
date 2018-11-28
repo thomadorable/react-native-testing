@@ -1,7 +1,7 @@
 // Components/Lookbooks.js
 
 import React from 'react'
-import { ScrollView, RefreshControl, StyleSheet, View, ActivityIndicator, Text, Dimensions, Animated, Easing } from 'react-native'
+import { ScrollView, RefreshControl, StyleSheet, View, ActivityIndicator, Text, Dimensions, Animated, Easing, Image } from 'react-native'
 // import { connect } from 'react-redux'
 import Avatar from './Avatar'
 import Tabs from './Tabs'
@@ -30,6 +30,7 @@ class Lookbooks extends React.Component {
         });
 
         this.nb_img_per_page = 20;
+
     }
 
     _scrollToTop = () => {
@@ -39,6 +40,7 @@ class Lookbooks extends React.Component {
 
     componentWillMount() {
         this._getLooks();
+
     }
 
     _onRefresh = () => {
@@ -121,7 +123,6 @@ class Lookbooks extends React.Component {
     }
 
     render() {
-        console.log('render lookbook page', this.isPreLoad)
         return (
             <View style={styles.main_container}>
                 <Avatar />

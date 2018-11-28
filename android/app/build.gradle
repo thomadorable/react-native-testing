@@ -137,6 +137,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-webgl')
+    compile project(':gl-react-native')
+    compile project(':react-native-color-matrix-image-filters')
     compile project(':react-native-localization')
     compile project(':react-native-device-info')
     compile project(':react-native-locale')

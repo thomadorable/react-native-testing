@@ -1,7 +1,7 @@
 // Components/Clothe.js
 
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, TouchableOpacity } from 'react-native'
 import Layout from '../constants/Layout'
 
 class MosaicItem extends React.Component {
@@ -19,9 +19,17 @@ class MosaicItem extends React.Component {
         }
 
         return (
-            <View style={{width: (Layout.window.width / 3 - 1), marginBottom: 1, marginRight: 1, backgroundColor: '#' + clothe.color}}>
+            <TouchableOpacity 
+                style={{width: (Layout.window.width / 3 - 1), marginBottom: 1, marginRight: 1, backgroundColor: '#' + clothe.color}}
+                onPress={() => {
+                    this.props.navigation.navigate('Filter', {
+                        image: imageUrl
+                    })
+                    console.log()
+                }}
+            >
                 <Image style={{ flex: 1, aspectRatio: 1}} source={imageUrl} />
-            </View>
+            </TouchableOpacity>
         )
     }
 }

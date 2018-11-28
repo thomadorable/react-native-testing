@@ -3,6 +3,9 @@ package com.app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import fr.greweb.rnwebgl.RNWebGLPackage;
+import com.projectseptember.RNGL.RNGLPackage;
+import iyegoroff.RNColorMatrixImageFilters.RNColorMatrixImageFiltersPackage;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import io.fixd.rctlocale.RCTLocalePackage;
@@ -36,6 +39,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNWebGLPackage(),
+            new RNGLPackage(),
+            new RNColorMatrixImageFiltersPackage(),
             new ReactNativeLocalizationPackage(),
             new RNDeviceInfo(),
             new RCTLocalePackage(),

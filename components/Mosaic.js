@@ -13,7 +13,7 @@ class Mosaic extends React.Component {
         var clothes = [];
         for (let i = 0; i < this.props.clothes.length; i++) {
             const clothe = this.props.clothes[i];
-            clothes.push(<MosaicItem clothe={clothe} index={i} key={i}/>);
+            clothes.push(<MosaicItem clothe={clothe} index={i} key={i} navigation={this.props.navigation}/>);
         }
 
         return (

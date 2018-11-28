@@ -5,6 +5,7 @@ import { StyleSheet, Image } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 import Camera from '../screens/Camera'
 import Clothes from '../screens/Clothes'
+import Filter from '../screens/Filter'
 import Lookbook from '../components/Lookbook'
 import MyLooks from '../screens/MyLooks'
 import CustomHeader from '../components/CustomHeader'
@@ -27,6 +28,13 @@ const ClothesStackNavigator = createStackNavigator({
         screen: Clothes,
         navigationOptions: {
             header: props => <CustomHeader {...props} title={t.page.title.clothes}/>,
+            animationEnabled: true
+        }
+    },
+    Filter: {
+        screen: Filter,
+        navigationOptions: {
+            header: props => <CustomHeader {...props} title="test filter"/>,
             animationEnabled: true
         }
     }
