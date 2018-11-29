@@ -6,7 +6,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import Camera from '../screens/Camera'
 import Clothes from '../screens/Clothes'
 import Filter from '../screens/Filter'
-import Lookbook from '../components/Lookbook'
+import Lookbook from '../screens/Lookbook'
 import MyLooks from '../screens/MyLooks'
 import CustomHeader from '../components/CustomHeader'
 import { fadeIn } from 'react-navigation-transitions';

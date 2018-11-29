@@ -4,10 +4,12 @@ import React from 'react'
 
 import { TouchableOpacity, TouchableWithoutFeedback, StyleSheet, View, Text, Image } from 'react-native'
 import Colors from '../constants/Colors'
-import { RNCamera, FaceDetector } from 'react-native-camera';
+import { RNCamera } from 'react-native-camera';
 import { connect } from 'react-redux'
 import { setSnap } from '../API/registerApi'
 import ImageResizer from 'react-native-image-resizer';
+
+import {ImageCrop} from 'react-native-image-cropper'
 
 
 class Camera extends React.Component {
@@ -19,7 +21,11 @@ class Camera extends React.Component {
             flashLight: RNCamera.Constants.FlashMode.off,
             imageUri: null,
             successPicture: null,
-            isLoading: false
+            isLoading: false,
+
+            height: 500,
+            width: 300,
+            zoom: 1
         }
     
         lastTap = null;
@@ -145,9 +151,31 @@ class Camera extends React.Component {
         )
     }
 
+    capture(){
+        this.refs.cropper.crop()
+        .then(base64 => console.log(base64))
+    }
+
     _renderSuccess = () => {
         return (
-            <Text style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>Success</Text>
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <View>
+                    <ImageCrop 
+                        ref={'cropper'}
+                        image={{uri: "https://images.unsplash.com/photo-1533613220915-609f661a6fe1?ixlib=rb-0.3.5&s=3fda90f4984163cc30e13bdae325b382&w=1000&q=80"}}
+                        cropHeight={this.state.height}
+                        cropWidth={this.state.width}
+                        zoom={this.state.zoom}
+                        maxZoom={80}
+                        minZoom={20}
+                        panToMove={true}
+                        pinchToZoom={true}
+                    />
+                    <Text onPress={this.capture()}>Capture()</Text>
+                </View>
+                <Text >Success</Text>
+            </View>
+            
         )
     }
 
@@ -232,7 +260,8 @@ class Camera extends React.Component {
     render() {
         console.log('render camera page')
         return (
-            (this.state.imageUri) ? this._renderImage() : this._renderCamera()
+            (true) ? this._renderSuccess() : this._renderSuccess()
+            // (this.state.imageUri) ? this._renderImage() : this._renderCamera()
         )
     }
 }
