@@ -13,6 +13,10 @@ export function updateUser() {
 
 updateUser();
 
+export function getUser() {
+    return current_user;
+}
+
 export async function getData (key, defaultValue, callback) {
     try {
         const value = await AsyncStorage.getItem(key);

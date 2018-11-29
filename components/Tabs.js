@@ -12,7 +12,7 @@ class Tabs extends React.Component {
     }
 
     switchTab = (indexTab) => {
-        ReactNativeHapticFeedback.trigger('impactLight', true);
+        // ReactNativeHapticFeedback.trigger('impactLight', true);
 
         console.log('switching to : ', indexTab);
 

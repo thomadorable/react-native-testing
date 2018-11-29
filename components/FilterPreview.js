@@ -9,7 +9,7 @@ class FilterPreview extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            opacity: 0
+            opacity: 0.1
         };
 
     }
@@ -24,7 +24,7 @@ class FilterPreview extends React.Component {
                 }} 
                 onPressOut={() => {
                     this.setState({
-                        opacity: 0
+                        opacity: 0.1
                     })
                 }}
             >
