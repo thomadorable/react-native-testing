@@ -2,9 +2,10 @@
 
 import React from 'react'
 import { StyleSheet, View, Picker, Text} from 'react-native'
+import Colors from '../constants/Colors'
 import Avatar from '../components/Avatar'
 import FilterPreview from '../components/FilterPreview'
-import Colors from '../constants/Colors'
+import CurrentFilter from '../components/CurrentFilter'
 
 // Filters
 import {Surface} from "gl-react-native";
@@ -56,23 +57,8 @@ class Filter extends React.Component {
                 </Text>
 
                 <View style={{position: 'relative'}}>
-                    <FilterPreview image={require('../assets/images/dizni.jpg')}/>
-                    <Surface style={{width: '100%', aspectRatio: 1, backgroundColor: 'lightgrey'}} autoRedraw={true} visibleContent={true}>
-                        <F1977 on={'F1977' === currentFilter}>
-                            <Earlybird on={'Earlybird' === currentFilter}>
-                                <Brannan on={'Brannan' === currentFilter}> 
-                                    <Amaro on={'Amaro' === currentFilter}>
-                                        <GLImage
-                                            source={this.props.navigation.state.params.image}
-                                            onDraw={() => {
-                                                // alert('draw ' + currentFilter)
-                                            }}
-                                        />
-                                    </Amaro>
-                                 </Brannan>
-                           </Earlybird>
-                        </F1977>
-                    </Surface>
+                    <FilterPreview image={this.props.navigation.state.params.image}/>
+                    <CurrentFilter currentFilter={currentFilter} image={this.props.navigation.state.params.image}/>
                 </View>
 
                 <Picker

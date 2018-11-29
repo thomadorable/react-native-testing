@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { StyleSheet, View, TouchableWithoutFeedback, Image } from 'react-native'
-import Colors from '../constants/Colors'
+import Layout from '../constants/Layout'
 
 
 class FilterPreview extends React.Component {
@@ -28,9 +28,7 @@ class FilterPreview extends React.Component {
                     })
                 }}
             >
-                <View style={{backgroundColor: 'red', width: 100, position: 'absolute', top: 0, opacity: this.state.opacity, zIndex: 10}}>
-                    <Image style={{width: 100, aspectRatio: 1}} source={this.props.image} />
-                </View>
+                <Image style={{width: Layout.window.width, height: Layout.window.width, opacity: this.state.opacity, position: 'absolute', top: 0, zIndex: 10}} source={this.props.image} />
             </TouchableWithoutFeedback>
         )
     }

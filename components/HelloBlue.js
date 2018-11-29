@@ -11,7 +11,7 @@ void main() {
 }`
   }
 });
-class HelloBlue extends React.Component {
+export default class HelloBlue extends React.Component {
   render() {
     const { blue } = this.props;
     return <Node shader={shaders.helloBlue} uniforms={{ blue }} />;
