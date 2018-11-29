@@ -12,29 +12,6 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { connect } from 'react-redux'
 
 
-// Filters
-import {Surface} from "gl-react-native";
-import GLImage from "gl-react-image";
-
-import Amaro from '../components/filters/Amaro'
-import Brannan from '../components/filters/Brannan';
-import Earlybird from '../components/filters/Earlybird';
-import F1977 from '../components/filters/F1977';
-import Hefe from '../components/filters/Hefe';
-import Hudson from '../components/filters/Hudson';
-import Inkwell from '../components/filters/Inkwell';
-import Lokofi from '../components/filters/Lokofi';
-import LordKelvin from '../components/filters/LordKelvin';
-import Nashville from '../components/filters/Nashville';
-import Normal from '../components/filters/Normal';
-import Rise from '../components/filters/Rise';
-import Sierra from '../components/filters/Sierra';
-import Sutro from '../components/filters/Sutro';
-import Toaster from '../components/filters/Toaster';
-import Valencia from '../components/filters/Valencia';
-import Walden from '../components/filters/Walden';
-import XproII from '../components/filters/XproII';
-
 class Lookbooks extends React.Component {
     constructor(props) {
         super(props);
@@ -63,8 +40,7 @@ class Lookbooks extends React.Component {
     }
 
     componentWillMount() {
-        // this._getLooks();
-
+        this._getLooks();
     }
 
     _onRefresh = () => {
@@ -151,9 +127,9 @@ class Lookbooks extends React.Component {
             <View style={styles.main_container}>
                 <Avatar />
                 
-                {/* <Tabs navigation={this.props.navigation} currentTab={0} /> */}
+                <Tabs navigation={this.props.navigation} currentTab={0} />
 
-                {/* {this._preLoad()} */}
+                {this._preLoad()}
 
                 <ScrollView
                     ref='_scrollView'
@@ -165,45 +141,17 @@ class Lookbooks extends React.Component {
                         />}
                     scrollEventThrottle={300}
                     onScroll={({nativeEvent})=>{
-                        // if(this.isCloseToBottom(nativeEvent) && !this.state.refreshing && !this.isLoadMoreLocker) {
-                        //     // TODO TOFIX ne pas load à l'infini quand il n'y en a plus (eh oui)
-                        //     this.isLoadMoreLocker = true;
+                        if(this.isCloseToBottom(nativeEvent) && !this.state.refreshing && !this.isLoadMoreLocker) {
+                            // TODO TOFIX ne pas load à l'infini quand il n'y en a plus (eh oui)
+                            this.isLoadMoreLocker = true;
 
-                        //     this._getLooks(); 
-                        //     this.scrape(false);
-                        // }
+                            this._getLooks(); 
+                            this.scrape(false);
+                        }
                     }}
                     >
 
-                    <Surface style={{width: '100%', height: 300}}>
-                        <GLImage source={require('../assets/images/dizni.jpg')}/>
-                    </Surface>
-
-                    <Surface style={{width: '100%', aspectRatio: 1}}>
-                        <F1977 on={false}>
-                            <Earlybird on={true}>
-                                <Brannan on={false}> 
-                                    <Amaro on={false}>
-                                        <GLImage source={require('../assets/images/dizni.jpg')}/>
-                                    </Amaro>
-                                </Brannan>
-                            </Earlybird>
-                        </F1977>
-                    </Surface>
-
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Earlybird on={true}>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Earlybird>
-                    </Surface>
-                    
-                    <Surface style={{width: '100%', height: 300}}>
-                        <F1977 on={true}>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </F1977>
-                    </Surface>
-
-                    {/* {this._displayLookbook()} */}
+                    {this._displayLookbook()}
                 </ScrollView>
             </View>
         )

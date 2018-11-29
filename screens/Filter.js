@@ -4,31 +4,6 @@ import React from 'react'
 import { StyleSheet, View, Picker, Text} from 'react-native'
 import Colors from '../constants/Colors'
 import Avatar from '../components/Avatar'
-import FilterPreview from '../components/FilterPreview'
-import CurrentFilter from '../components/CurrentFilter'
-
-// Filters
-import {Surface} from "gl-react-native";
-import GLImage from "gl-react-image";
-
-import Amaro from '../components/filters/Amaro'
-import Brannan from '../components/filters/Brannan';
-import Earlybird from '../components/filters/Earlybird';
-import F1977 from '../components/filters/F1977';
-import Hefe from '../components/filters/Hefe';
-import Hudson from '../components/filters/Hudson';
-import Inkwell from '../components/filters/Inkwell';
-import Lokofi from '../components/filters/Lokofi';
-import LordKelvin from '../components/filters/LordKelvin';
-import Nashville from '../components/filters/Nashville';
-import Normal from '../components/filters/Normal';
-import Rise from '../components/filters/Rise';
-import Sierra from '../components/filters/Sierra';
-import Sutro from '../components/filters/Sutro';
-import Toaster from '../components/filters/Toaster';
-import Valencia from '../components/filters/Valencia';
-import Walden from '../components/filters/Walden';
-import XproII from '../components/filters/XproII';
 
 class Filter extends React.Component {
     constructor(props) {
@@ -56,96 +31,29 @@ class Filter extends React.Component {
                     Filter : {currentFilter}
                 </Text>
 
-                <View style={{position: 'relative'}}>
-                    <FilterPreview image={this.props.navigation.state.params.image}/>
-                    <CurrentFilter currentFilter={currentFilter} image={this.props.navigation.state.params.image}/>
-                </View>
-
                 <Picker
                     selectedValue={currentFilter}
                     style={{ height: 30, width: 150 }}
                     onValueChange={(itemValue, itemIndex) => this.setState({currentFilter: itemValue})}>
-                    <Picker.Item label="Normal" value="Normal" />
-                    <Picker.Item label="Amaro" value="Amaro" />
-                    <Picker.Item label="Brannan" value="Brannan" />
-                    <Picker.Item label="Earlybird" value="Earlybird" />
+                        <Picker.Item label="vintage" value="Vintage" />
+                        <Picker.Item label="lomo" value="Lomo" />
+                        <Picker.Item label="clarity" value="Clarity" />
+                        <Picker.Item label="sinCity" value="Sin City" />
+                        <Picker.Item label="sunrise" value="Sunrise" />
+                        <Picker.Item label="crossProcess" value="Cross Process" />
+                        <Picker.Item label="orangePeel" value="Orange Peel" />
+                        <Picker.Item label="love" value="Love" />
+                        <Picker.Item label="grungy" value="Grungy" />
+                        <Picker.Item label="jarques" value="Jarques" />
+                        <Picker.Item label="pinhole" value="Pinhole" />
+                        <Picker.Item label="oldBoot" value="Old Boot" />
+                        <Picker.Item label="glowingSun" value="Glowing Sun" />
+                        <Picker.Item label="hazyDays" value="Hazy Days" />
+                        <Picker.Item label="herMajesty" value="Her Majesty" />
+                        <Picker.Item label="nostalgia" value="Nostalgia" />
+                        <Picker.Item label="hemingway" value="Hemingway" />
+                        <Picker.Item label="concentrate" value="Concentrate" />
                 </Picker>
-
-                    {/* <Surface style={{width: '100%', height: 300}}>
-                        <F1977>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </F1977>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Hefe>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Hefe>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Hudson>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Hudson>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Inkwell>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Inkwell>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Lokofi>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Lokofi>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <LordKelvin>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </LordKelvin>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Nashville>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Nashville>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Normal>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Normal>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Rise>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Rise>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Sierra>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Sierra>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Sutro>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Sutro>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Toaster>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Toaster>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Valencia>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Valencia>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <Walden>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </Walden>
-                    </Surface>
-                    <Surface style={{width: '100%', height: 300}}>
-                        <XproII>
-                            <GLImage source={require('../assets/images/dizni.jpg')}/>
-                        </XproII>
-                    </Surface> */}
             </View>
         )
     }

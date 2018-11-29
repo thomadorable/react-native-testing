@@ -36,6 +36,9 @@
 		4A0EB6A9FE614A598F755508 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF3DE4A1CE7B4BAF9E6F7EDA /* SpaceMono-Regular.ttf */; };
 		56D3B706A5304D7FA4B2AF93 /* RozhaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C4C2994C71804E2BB1F8FEF1 /* RozhaOne-Regular.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		893DDB4C21B018C600C9D529 /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 893DDB1721B018C600C9D529 /* GoogleSignIn.bundle */; };
+		893DDB4D21B0190E00C9D529 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89B1671B21AC6E9200718C33 /* libRNGoogleSignin.a */; };
+		893DDB6921B01B2400C9D529 /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 893FDBB621A31575005BE81A /* libRNCamera.a */; };
 		8940556821AF49040045BF7E /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8940556621AF49030045BF7E /* GoogleSignIn.framework */; };
 		8940556921AF49040045BF7E /* GoogleSignInDependencies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8940556721AF49040045BF7E /* GoogleSignInDependencies.framework */; };
 		894E24C921AFCEBE00DB8127 /* libRNWebGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 894E24C821AFCE9900DB8127 /* libRNWebGL.a */; };
@@ -462,6 +465,7 @@
 		6A60BE7C3D0C422AB214CC01 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		893DDB1721B018C600C9D529 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
 		8940556621AF49030045BF7E /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
 		8940556721AF49040045BF7E /* GoogleSignInDependencies.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignInDependencies.framework; sourceTree = "<group>"; };
 		894E24C221AFCE9800DB8127 /* RNWebGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNWebGL.xcodeproj; path = "../node_modules/react-native-webgl/ios/RNWebGL.xcodeproj"; sourceTree = "<group>"; };
@@ -494,6 +498,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				893DDB6921B01B2400C9D529 /* libRNCamera.a in Frameworks */,
+				893DDB4D21B0190E00C9D529 /* libRNGoogleSignin.a in Frameworks */,
 				894E24C921AFCEBE00DB8127 /* libRNWebGL.a in Frameworks */,
 				8973D20821AD93670055EF3B /* libRNColorMatrixImageFilters.a in Frameworks */,
 				8973B08A21ACB29B00741F08 /* libReactNativeLocalization.a in Frameworks */,
@@ -621,6 +627,7 @@
 		13B07FAE1A68108700A75B9A /* app */ = {
 			isa = PBXGroup;
 			children = (
+				893DDB1721B018C600C9D529 /* GoogleSignIn.bundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -1488,6 +1495,7 @@
 				8973AF9B21AC70D900741F08 /* GoogleService-Info.plist in Resources */,
 				8965CB5F21A31BAA0091B502 /* logo.png in Resources */,
 				8965CB5C21A31AF50091B502 /* Images.xcassets in Resources */,
+				893DDB4C21B018C600C9D529 /* GoogleSignIn.bundle in Resources */,
 				56D3B706A5304D7FA4B2AF93 /* RozhaOne-Regular.ttf in Resources */,
 				8965CB6221A31C1E0091B502 /* splash.png in Resources */,
 				4A0EB6A9FE614A598F755508 /* SpaceMono-Regular.ttf in Resources */,
