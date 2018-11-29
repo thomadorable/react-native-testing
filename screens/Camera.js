@@ -9,9 +9,6 @@ import { connect } from 'react-redux'
 import { setSnap } from '../API/registerApi'
 import ImageResizer from 'react-native-image-resizer';
 
-import {ImageCrop} from 'react-native-image-cropper'
-
-
 class Camera extends React.Component {
 
     constructor(props) {
@@ -160,17 +157,6 @@ class Camera extends React.Component {
         return (
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <View>
-                    <ImageCrop 
-                        ref={'cropper'}
-                        image={{uri: "https://images.unsplash.com/photo-1533613220915-609f661a6fe1?ixlib=rb-0.3.5&s=3fda90f4984163cc30e13bdae325b382&w=1000&q=80"}}
-                        cropHeight={this.state.height}
-                        cropWidth={this.state.width}
-                        zoom={this.state.zoom}
-                        maxZoom={80}
-                        minZoom={20}
-                        panToMove={true}
-                        pinchToZoom={true}
-                    />
                     <Text onPress={this.capture()}>Capture()</Text>
                 </View>
                 <Text >Success</Text>
