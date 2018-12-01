@@ -2,90 +2,83 @@
 
 import React from 'react'
 
-import { TouchableOpacity, TouchableWithoutFeedback, StyleSheet, View, Text, Image } from 'react-native'
+import { TouchableOpacity, TouchableWithoutFeedback, StyleSheet, View, Text, Image, Button } from 'react-native'
 import Colors from '../constants/Colors'
+import Resizer from '../components/Resizer'
 import { RNCamera } from 'react-native-camera';
 import { connect } from 'react-redux'
 import { setSnap } from '../API/registerApi'
 import ImageResizer from 'react-native-image-resizer';
+import ImagePicker from 'react-native-image-picker'
 
 class Camera extends React.Component {
-
     constructor(props) {
         super(props)
         this.state = {
             typeCamera: RNCamera.Constants.Type.back,
             flashLight: RNCamera.Constants.FlashMode.off,
-            imageUri: null,
-            successPicture: null,
             isLoading: false,
-
-            height: 500,
-            width: 300,
-            zoom: 1
+            step: 1
         }
     
         lastTap = null;
     }
 
-    switchLoading = (value) => {
-        this.setState({
-            isLoading: value
-        });
-    }
-
     takePicture = async () => {
-
         this.setState({
             isLoading: true
         });
 
-        // this.switchLoading(true);
         if (this.camera && !this.state.isLoading) {
             const options = { quality: 0.5, base64: true };
             const photo = await this.camera.takePictureAsync(options)
             this.setState({
                 imageUri: {
                     uri: photo.uri,
-                    isLoading: false
-                }
-            }, () => {
-                // this.switchLoading(false);
+                },
+                step: 2,
+                isLoading: false
             });
         } else {
             alert('is loading !!!');
         }
     };
 
-    savePicture = () => {
+    cropAndSave = (cropPositions, pictureSize) => {
         // TOFIX : ADD LOADER
         ImageResizer.createResizedImage(this.state.imageUri.uri, 1000, 1000, 'JPEG', 90, 0, null).then((response) => {
-
             const data = new FormData();
             data.append('name', this.props.user.id + '.jpg');
+
+
+            data.append('top', cropPositions.top);
+            data.append('left', cropPositions.left);
+            data.append('right', cropPositions.right);
+            data.append('bottom', cropPositions.bottom);
+
+            data.append('width', pictureSize.width);
+            data.append('height', pictureSize.height);
+
             data.append('image', {
                 uri: response.uri,
                 name: 'snaping-' + this.props.user.id,
                 type: 'image/jpeg'
             });
 
+
             setSnap(data, (result) => {
                 if (result !== null) {
-                    console.log('add clothe : ', result.avatar)
                     const clothe = {
                         id: Date.now(),
                         image: result.avatar,
                         added_date: Date.now()
                     };
+
                     this.props.dispatch({type: "ADD_CLOTHES", value: clothe })
 
-                    this.setState({
-                        successPicture: true
-                    });
+                    alert("*changer de page vers les vêtements");
                 } else {
-                    this.setState({
-                        successPicture: false
-                    });
+                    alert('fail !');
                 }
             });
 
@@ -93,6 +86,21 @@ class Camera extends React.Component {
             // Oops, something went wrong. Check that the filename is correct and
             // inspect err to get more details.
         });
+    }
+
+    _showImagePicker() {
+        ImagePicker.showImagePicker({}, (response) => {
+          if (response.didCancel) {
+            console.log('L\'utilisateur a annulé')
+          }
+          else if (response.error) {
+            console.log('Erreur : ', response.error)
+          }
+          else {
+            console.log('Photo : ', response.uri )
+            let requireSource = { uri: response.uri }
+          }
+        })
     }
 
     switchType = () => {
@@ -109,9 +117,10 @@ class Camera extends React.Component {
         });
     }
 
-    resnap = () => {
+    _resnap = () => {
         this.setState({
-            imageUri: null
+            imageUri: null,
+            step: 1
         });
     }
 
@@ -123,45 +132,19 @@ class Camera extends React.Component {
             this.lastTap = now;
         }
     }
-
-    _renderResult = () => {
-        return (
-            <View style={{flex: 1}} >
-                <Image style={{ flex: 1, margin: 20, marginBottom: 80}} source={this.state.imageUri} />
-
-                <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', position: 'absolute', bottom: 30, width: '100%', paddingHorizontal: 20 }}>
-                    <TouchableOpacity
-                        style={styles.btn}
-                        onPress={this.resnap}
-                    >
-                        <Text style={{ fontSize: 14, color: 'black' }}> RESNAP </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.btn}
-                        onPress={this.savePicture}
-                    >
-                        <Text style={{ fontSize: 14, color: 'black' }}> validate </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        )
-    }
+    
 
     capture(){
-        this.refs.cropper.crop()
-        .then(base64 => console.log(base64))
+        this.refs.cropper.crop().then(base64 => console.log(base64))
     }
 
-    _renderSuccess = () => {
+    _renderCrop = () => {
+        console.log('render crop');
         return (
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <View>
-                    <Text onPress={this.capture()}>Capture()</Text>
-                </View>
-                <Text >Success</Text>
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', padding: 20}}>
+                
+                <Resizer imageUri={this.state.imageUri} save={this.cropAndSave} cancel={this._resnap}/>
             </View>
-            
         )
     }
 
@@ -171,14 +154,7 @@ class Camera extends React.Component {
         )
     }
 
-    _renderImage = () => {
-        return (
-                this.state.successPicture === null ? this._renderResult() : ((this.state.successPicture === true) ? this._renderSuccess() : this._renderFail())
-        )
-    }
-
     _showLight = () => {
-
         var flashImg = require('../assets/images/flash.png');
         if (this.state.flashLight === RNCamera.Constants.FlashMode.off) {
             flashImg = require('../assets/images/no-flash.png');
@@ -203,19 +179,31 @@ class Camera extends React.Component {
                         style={{ flex: 1 }}
                         type={this.state.typeCamera}
                         flashMode={this.state.flashLight}
-                        permissionDialogTitle={'Vera : Permission to use camera'}
+                        permissionDialogTitle={'Vera : Permission to use camera'} // TODO WORDING
                         permissionDialogMessage={'Vera : We need your permission to use your camera phone'}
                         onGoogleVisionBarcodesDetected={({ barcodes }) => {
                             console.log('barcodes', barcodes)
                         }}
                     />
 
-                    <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', position: 'absolute', bottom: 30, width: '100%', paddingHorizontal: 20 }}>
+                    <View style={{position: 'absolute', top: 20, left: 20}}>
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={this.switchLight}
                         >
                             {this._showLight()}
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', position: 'absolute', bottom: 30, width: '100%', paddingHorizontal: 20 }}>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={this._showImagePicker}
+                        >
+                            <Image
+                                source={require('../assets/images/switch-camera.png')}
+                                style={{width: 30, height: 30}}
+                            />
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -244,11 +232,13 @@ class Camera extends React.Component {
     }
 
     render() {
-        console.log('render camera page')
-        return (
-            (true) ? this._renderSuccess() : this._renderSuccess()
-            // (this.state.imageUri) ? this._renderImage() : this._renderCamera()
-        )
+        var selectFunction = this._renderCamera;
+        switch(this.state.step) {
+            case 2:
+                selectFunction = this._renderCrop
+            break;
+        }
+        return selectFunction();
     }
 }
 

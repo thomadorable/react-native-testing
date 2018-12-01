@@ -7,24 +7,6 @@ import Avatar from '../components/Avatar'
 import Mosaic from '../components/Mosaic'
 import Colors from '../constants/Colors'
 
-
-import {
-  Grayscale,
-  Sepia,
-  Tint,
-  ColorMatrix,
-  concatColorMatrices,
-  invert,
-  contrast,
-  saturate,
-  Vintage,
-Browni,
-Kodachrome,
-ToBGR,
-Polaroid,
-Technicolor
-} from 'react-native-color-matrix-image-filters';
-
 class Clothes extends React.Component {
     constructor(props) {
         super(props);
@@ -48,7 +30,6 @@ class Clothes extends React.Component {
 
     render() {
 
-        var img = (<Image style={{width: '100%', aspectRatio: 1}} source={{uri: 'https://www.gettyimages.ie/gi-resources/images/Homepage/Hero/UK/CMS_Creative_164657191_Kingfisher.jpg'}} />);
         return (
             <View style={styles.main_container}>
                 <Avatar />
@@ -68,20 +49,6 @@ class Clothes extends React.Component {
     }
 }
 
-
-                    // {img}
-
-                    // <Vintage >{img}</Vintage>
-                    // <Kodachrome >{img}</Kodachrome>
-                    // <ToBGR >{img}</ToBGR>
-                    // <Technicolor >{img}</Technicolor>
-
-// cools :
-// Vintage
-// Lsd
-// Kodachrome
-// ToBGR
-// Technicolor
 
 const styles = StyleSheet.create({
     main_container: {

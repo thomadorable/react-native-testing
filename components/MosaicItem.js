@@ -18,6 +18,8 @@ class MosaicItem extends React.Component {
             }
         }
 
+        console.log(imageUrl.uri);
+
         return (
             <TouchableOpacity 
                 style={{width: (Layout.window.width / 3 - 1), marginBottom: 1, marginRight: 1, backgroundColor: '#' + clothe.color}}

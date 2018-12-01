@@ -23,6 +23,7 @@
     "react-native-haptic": "^1.0.1",
     "react-native-haptic-feedback": "^1.4.2",
     "react-native-i18n": "^2.0.15",
+    "react-native-image-crop": "^1.0.2",
     "react-native-image-cropper": "^0.4.5",
     "react-native-image-picker": "^0.27.1",
     "react-native-image-resizer": "^1.0.0",

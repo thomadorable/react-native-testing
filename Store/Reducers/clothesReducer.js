@@ -7,7 +7,6 @@ function setClothes(state = initialState, action) {
     let nextState
     switch (action.type) {
         case 'ADD_CLOTHES':
-
             nextState = {
                 ...state,
                 clothes: [...state.clothes, action.value]
@@ -15,7 +14,7 @@ function setClothes(state = initialState, action) {
 
             var checkState = nextState || state;
             var clothes = checkState.clothes;
-            
+
             const data = new FormData();
             data.append('clothe', JSON.stringify(clothes));
             

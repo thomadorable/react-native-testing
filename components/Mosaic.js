@@ -11,6 +11,7 @@ class Mosaic extends React.Component {
 
     render() {
         var clothes = [];
+        console.log('render mosaic : ', this.props.clothes, this.props.clothes.length)
         for (let i = 0; i < this.props.clothes.length; i++) {
             const clothe = this.props.clothes[i];
             clothes.push(<MosaicItem clothe={clothe} index={i} key={i} navigation={this.props.navigation}/>);

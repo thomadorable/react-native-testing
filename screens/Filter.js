@@ -65,6 +65,8 @@ class Filter extends React.Component {
 
             getFilter(itemValue, null, (photo) => {
 
+                console.log('ajax : ', photo)
+
                 var imageUrl = defaultImage;
                 if (photo.status === 200) {
                     imageUrl = {uri: photo.output};

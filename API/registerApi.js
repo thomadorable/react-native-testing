@@ -71,7 +71,7 @@ export function setAvatar(data, callback) {
 export function setSnap(data, callback) {
     isNetworkConnected().done((isConnected) => {
         if (isConnected) {
-            return fetch(baseUrl + '/snap.php', {
+            return fetch(baseUrl + '/crop.php', {
                 method: 'post',
                 body: data,
                 headers: {
