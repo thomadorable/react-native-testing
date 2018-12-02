@@ -17,11 +17,14 @@ class Filter extends React.Component {
             currentFilter: 'normal',
             isFilterLoading: false,
             image: defaultImage,
-            opacity: 1
+            opacity: 1,
+            filters: {
+                normal: defaultImage
+            }
         };
 
         getFilter('vintage', defaultImage.uri, (photo) => {
-            console.log('>>>>>>>>>>', photo)
+            console.log('init image filter', photo)
         });
 
         this.anim_switch = new Animated.Value(1);
@@ -44,7 +47,7 @@ class Filter extends React.Component {
         }
     }
 
-    _switchFilter =  (itemValue, index) => {
+    _switchFilter =  (filerName, index) => {
         if (!this.state.isFilterLoading) {
 
             Animated.timing(
@@ -54,39 +57,52 @@ class Filter extends React.Component {
                     easing: Easing.ease
                 }
             ).start();
-            console.log('begin ajax')
 
             this.refs._scrollView.scrollTo({x: (146 * index - 114), y: 0, animated: true});
-            
             this.setState({
-                currentFilter: itemValue,
+                currentFilter: filerName,
                 isFilterLoading: true
             });
 
-            getFilter(itemValue, null, (photo) => {
+            if (this.state.filters[filerName]) {
+                this._showNewFilter(this.state.filters[filerName], filerName);
+            } else {
+                console.log('ajax !!!')
+                getFilter(filerName, null, (photo) => {
+                    var imageUrl = defaultImage;
+                    if (photo.status === 200) {
+                        imageUrl = {uri: photo.output};
+                        let stateFilters = this.state.filters;
+                        stateFilters[filerName] = imageUrl;
 
-                console.log('ajax : ', photo)
-
-                var imageUrl = defaultImage;
-                if (photo.status === 200) {
-                    imageUrl = {uri: photo.output};
-                }
-
-                this.setState({
-                    currentFilter: itemValue,
-                    image: imageUrl
-                });
-            })
+                        this.setState({
+                            filters: stateFilters
+                        })
+                    }
+    
+                    this._showNewFilter(imageUrl, filerName);
+                })
+            }
         }
+    }
+
+    _showNewFilter = (image, filter) => {
+        this.setState({
+            currentFilter: filter,
+            image: image
+        });
     }
 
     _showFilters = () => {
         var filters = ['Normal', 'Vintage', 'Lomo', 'Clarity', 'Sin City', 'Sunrise', 'Cross Process', 'Orange Peel', 'Love', 'Grungy', 'Jarques', 'Pinhole', 'Old Boot', 'Glowing Sun', 'Hazy Days', 'Her Majesty', 'Nostalgia', 'Hemingway', 'Concentrate'];
+
+
         var filtersNode = [];
         for (let i = 0, l = filters.length; i < filters.length; i++) {
             const filter = filters[i];
             const key = filter[0].toLowerCase() + filter.slice(1).replace(' ', '');
-            filtersNode.push(<Filterbtn key={'filter_btn_' + i} index={i} filter={key} name={filter} switch={this._switchFilter} active={this.state.currentFilter}/>);
+
+            filtersNode.push(<Filterbtn key={'filter_btn_' + i} index={i} filter={key} name={filter} switch={this._switchFilter} active={this.state.currentFilter} image={this.state.filters[key]} />);
         }
 
         return filtersNode;

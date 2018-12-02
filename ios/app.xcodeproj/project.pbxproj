@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -35,6 +36,9 @@
 		4A0EB6A9FE614A598F755508 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF3DE4A1CE7B4BAF9E6F7EDA /* SpaceMono-Regular.ttf */; };
 		56D3B706A5304D7FA4B2AF93 /* RozhaOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C4C2994C71804E2BB1F8FEF1 /* RozhaOne-Regular.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		890F403721B2982900A788D1 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 893FDBB921A31575005BE81A /* libRNImagePicker.a */; };
+		890F406721B3C6C800A788D1 /* libReactNativeHaptic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 893FDBB321A31575005BE81A /* libReactNativeHaptic.a */; };
+		890F406821B3C6C800A788D1 /* libRNReactNativeHapticFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 893FDBBC21A31575005BE81A /* libRNReactNativeHapticFeedback.a */; };
 		893DDB4C21B018C600C9D529 /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 893DDB1721B018C600C9D529 /* GoogleSignIn.bundle */; };
 		893DDB4D21B0190E00C9D529 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89B1671B21AC6E9200718C33 /* libRNGoogleSignin.a */; };
 		893DDB6921B01B2400C9D529 /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 893FDBB621A31575005BE81A /* libRNCamera.a */; };
@@ -465,6 +469,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				890F406721B3C6C800A788D1 /* libReactNativeHaptic.a in Frameworks */,
+				890F406821B3C6C800A788D1 /* libRNReactNativeHapticFeedback.a in Frameworks */,
+				890F403721B2982900A788D1 /* libRNImagePicker.a in Frameworks */,
 				89C9CC3F21B16C8600E510C0 /* libRCTImageResizer.a in Frameworks */,
 				893DDB6921B01B2400C9D529 /* libRNCamera.a in Frameworks */,
 				893DDB4D21B0190E00C9D529 /* libRNGoogleSignin.a in Frameworks */,

@@ -50,7 +50,7 @@ export function setJSON(file, data, callback) {
                 method: 'post',
                 body: data,
             })
-            .then((response) => response.text())
+            .then((response) => response.json())
             .then((json) => callback(json))
             .catch((error) => console.error(error))
         } else {

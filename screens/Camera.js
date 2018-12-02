@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { TouchableOpacity, TouchableWithoutFeedback, StyleSheet, View, Text, Image, Button } from 'react-native'
+import { TouchableOpacity, TouchableWithoutFeedback, StyleSheet, View, Text, Image } from 'react-native'
 import Colors from '../constants/Colors'
 import Resizer from '../components/Resizer'
 import { RNCamera } from 'react-native-camera';
@@ -32,9 +32,13 @@ class Camera extends React.Component {
         if (this.camera && !this.state.isLoading) {
             const options = { quality: 0.5, base64: true };
             const photo = await this.camera.takePictureAsync(options)
+
+            console.log('take photo =>', photo)
             this.setState({
                 imageUri: {
                     uri: photo.uri,
+                    width: photo.width,
+                    height: photo.height
                 },
                 step: 2,
                 isLoading: false
@@ -45,6 +49,7 @@ class Camera extends React.Component {
     };
 
     cropAndSave = (cropPositions, pictureSize) => {
+        console.log('crop and save :')
         // TOFIX : ADD LOADER
         ImageResizer.createResizedImage(this.state.imageUri.uri, 1000, 1000, 'JPEG', 90, 0, null).then((response) => {
             const data = new FormData();
@@ -65,6 +70,8 @@ class Camera extends React.Component {
                 type: 'image/jpeg'
             });
 
+            console.log('set snap :')
+
 
             setSnap(data, (result) => {
                 if (result !== null) {
@@ -76,7 +83,9 @@ class Camera extends React.Component {
 
                     this.props.dispatch({type: "ADD_CLOTHES", value: clothe })
 
-                    alert("*changer de page vers les vêtements");
+                    this.props.navigation.navigate('Filter', {
+                        image: result.avatar
+                    })
                 } else {
                     alert('fail !');
                 }
@@ -85,22 +94,39 @@ class Camera extends React.Component {
         }).catch((err) => {
             // Oops, something went wrong. Check that the filename is correct and
             // inspect err to get more details.
+            console.log(err)
         });
     }
 
-    _showImagePicker() {
-        ImagePicker.showImagePicker({}, (response) => {
-          if (response.didCancel) {
-            console.log('L\'utilisateur a annulé')
-          }
-          else if (response.error) {
-            console.log('Erreur : ', response.error)
-          }
-          else {
-            console.log('Photo : ', response.uri )
-            let requireSource = { uri: response.uri }
-          }
-        })
+    _showImagePicker = () => {
+        if (!this.state.isLoading) {
+            ImagePicker.showImagePicker({
+                title: 'Ajouter une image',
+                takePhotoButtonTitle: 'Prendre une photo',
+                chooseFromLibraryButtonTitle: 'Choisir depuis la librairie',
+                mediaType: 'photo',
+                allowsEditing: false,
+                noData: true
+            }, (response) => {
+              if (response.didCancel) {
+                console.log('L\'utilisateur a annulé')
+              }
+              else if (response.error) {
+                console.log('Erreur : ', response.error)
+              }
+              else {
+                this.setState({
+                    imageUri: {
+                        uri: response.uri,
+                        width: response.width,
+                        height: response.height
+                    },
+                    step: 2,
+                    isLoading: false
+                });
+              }
+            })
+        }
     }
 
     switchType = () => {
@@ -132,19 +158,10 @@ class Camera extends React.Component {
             this.lastTap = now;
         }
     }
-    
-
-    capture(){
-        this.refs.cropper.crop().then(base64 => console.log(base64))
-    }
 
     _renderCrop = () => {
-        console.log('render crop');
         return (
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', padding: 20}}>
-                
-                <Resizer imageUri={this.state.imageUri} save={this.cropAndSave} cancel={this._resnap}/>
-            </View>
+            <Resizer imageUri={this.state.imageUri} save={this.cropAndSave} cancel={this._resnap} />
         )
     }
 
@@ -201,8 +218,8 @@ class Camera extends React.Component {
                             onPress={this._showImagePicker}
                         >
                             <Image
-                                source={require('../assets/images/switch-camera.png')}
-                                style={{width: 30, height: 30}}
+                                source={require('../assets/images/attach.png')}
+                                style={{width: 24, height: 24}}
                             />
                         </TouchableOpacity>
 

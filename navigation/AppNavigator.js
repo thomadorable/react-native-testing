@@ -20,6 +20,13 @@ const CameraStackNavigator = createStackNavigator({
             header: props => <CustomHeader {...props} title={t.page.title.camera}/>,
             animationEnabled: true
         }
+    },
+    Filter: {
+        screen: Filter,
+        navigationOptions: {
+            header: props => <CustomHeader {...props} title="test filter"/>,
+            animationEnabled: true
+        }
     }
 })
 
@@ -28,13 +35,6 @@ const ClothesStackNavigator = createStackNavigator({
         screen: Clothes,
         navigationOptions: {
             header: props => <CustomHeader {...props} title={t.page.title.clothes}/>,
-            animationEnabled: true
-        }
-    },
-    Filter: {
-        screen: Filter,
-        navigationOptions: {
-            header: props => <CustomHeader {...props} title="test filter"/>,
             animationEnabled: true
         }
     }

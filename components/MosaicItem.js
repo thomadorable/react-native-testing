@@ -18,8 +18,6 @@ class MosaicItem extends React.Component {
             }
         }
 
-        console.log(imageUrl.uri);
-
         return (
             <TouchableOpacity 
                 style={{width: (Layout.window.width / 3 - 1), marginBottom: 1, marginRight: 1, backgroundColor: '#' + clothe.color}}
@@ -27,7 +25,6 @@ class MosaicItem extends React.Component {
                     this.props.navigation.navigate('Filter', {
                         image: imageUrl
                     })
-                    console.log()
                 }}
             >
                 <Image style={{ flex: 1, aspectRatio: 1}} source={imageUrl} />

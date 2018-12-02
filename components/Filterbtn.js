@@ -1,7 +1,7 @@
 // screens/Filter.js
 
 import React from 'react'
-import { StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { StyleSheet, TouchableOpacity, Text, ImageBackground, View } from 'react-native'
 
 
 class Filterbtn extends React.Component {
@@ -13,13 +13,30 @@ class Filterbtn extends React.Component {
 
     }
 
+    _imageOrText = (image, isActive) => {
+        return image ? (
+            <ImageBackground
+                style={[styles.filter, (isActive ? styles.focus : null)]} 
+                source={{uri: image}}
+            ></ImageBackground>
+        ) : (
+            <View
+                style={[styles.filter, (isActive ? styles.focus : null)]} 
+            >
+                <Text style={[(isActive ? styles.focusText : null), {fontWeight: 'bold'}]}>{this.props.name}</Text>
+            </View>
+        )
+    }
+
     render() {
+        const image = (typeof (this.props.image) !== 'undefined') ? this.props.image.uri : null;
+        const isActive = this.props.active === this.props.filter;
         return (
             <TouchableOpacity 
-                style={[styles.filter, {marginLeft: 10}, (this.props.active === this.props.filter ? styles.focus : null)]} 
+                style={{borderRadius: 5, overflow: 'hidden', flex: 1, backgroundColor: 'red', margin: 5, marginLeft: 10}}
                 onPress={() => {this.props.switch(this.props.filter, this.props.index)}}
             >
-                <Text style={[(this.props.active === this.props.filter ? styles.focusText : null), {fontWeight: 'bold'}]}>{this.props.name}</Text>
+                {this._imageOrText(image, isActive)}
             </TouchableOpacity>
 
         )
@@ -29,14 +46,13 @@ class Filterbtn extends React.Component {
 export default Filterbtn
 const styles = StyleSheet.create({
     filter: {
+        flex: 1,
         backgroundColor: 'lightgrey',
-        borderRadius: 5,
-        margin: 5,
         width: 130,
+        // height: 70,
         textAlign: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        // height: 70,
     },
     focus: {
         backgroundColor: '#292929',
